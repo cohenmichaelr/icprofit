@@ -111,7 +111,11 @@ a { color: var(--sage-dark); }
 }
 
 .brand { display: flex; align-items: center; text-decoration: none; }
-.brand-mark { height: 84px; width: auto; }
+.brand-mark {
+  height: 84px;
+  width: auto;
+  filter: drop-shadow(0 2px 3px rgba(38, 39, 43, 0.28));
+}
 
 .site-nav { display: flex; align-items: center; gap: 1.7rem; }
 
@@ -236,6 +240,22 @@ a { color: var(--sage-dark); }
   white-space: nowrap;
 }
 
+/* Grid items default to min-width:auto, so a wide child (the nowrap ledger
+   table) inflates its whole track past the container. Zeroing it lets the
+   track shrink and hands overflow to .sheet-scroll instead of the page. */
+.hero-grid > *,
+.split > *,
+.service-block > *,
+.card-grid > *,
+.pricing-grid > *,
+.practice-grid > *,
+.team-grid > *,
+.stat-row > *,
+.footer-grid > * { min-width: 0; }
+
+/* wide ledger tables scroll inside the sheet, never widening the page */
+.sheet-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
 .ledger-sheet table { width: 100%; border-collapse: collapse; }
 
 .ledger-sheet th {
@@ -324,7 +344,12 @@ a { color: var(--sage-dark); }
 .hero .lede { margin-bottom: 2.1rem; }
 .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
 
-.hero-logo { height: 150px; width: auto; margin-bottom: 1.5rem; }
+.hero-logo {
+  height: 150px;
+  width: auto;
+  margin-bottom: 1.5rem;
+  filter: drop-shadow(0 4px 8px rgba(38, 39, 43, 0.25));
+}
 
 /* colored accent word inside headings */
 .accent { color: var(--red); font-style: italic; }
@@ -339,7 +364,7 @@ a { color: var(--sage-dark); }
 
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
   gap: 1.5rem;
 }
 
@@ -446,7 +471,7 @@ a { color: var(--sage-dark); }
 
 .practice-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
   gap: 1.5rem;
 }
 
@@ -542,7 +567,7 @@ a { color: var(--sage-dark); }
 
 .pricing-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(290px, 100%), 1fr));
   gap: 1.7rem;
   align-items: stretch;
 }
@@ -640,7 +665,7 @@ a { color: var(--sage-dark); }
 
 .stat-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr));
   gap: 2.2rem;
   margin-top: 2.6rem;
 }
@@ -702,7 +727,7 @@ a { color: var(--sage-dark); }
 
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
   gap: 1.7rem;
 }
 
@@ -814,12 +839,69 @@ a { color: var(--sage-dark); }
     background: #FDFDFC;
     border-bottom: 1px solid var(--line);
     flex-direction: column;
-    align-items: flex-start;
-    padding: 1.2rem 4%;
-    gap: 1rem;
+    align-items: stretch;
+    padding: 0.8rem 4% 1.2rem;
+    gap: 0.2rem;
+    /* a long menu must never become unreachable on a short screen */
+    max-height: calc(100dvh - 100%);
+    overflow-y: auto;
   }
 
   .site-nav.open { display: flex; }
+
+  /* comfortable tap targets */
+  .site-nav a {
+    padding: 0.75rem 0.25rem;
+    border-bottom: 1px solid var(--line);
+    font-size: 1rem;
+  }
+
+  .site-nav a:last-child { border-bottom: none; }
+  .site-nav a.active { border-bottom-color: var(--line); color: var(--red); }
+
+  .site-nav a.btn {
+    margin-top: 0.8rem;
+    padding: 0.85rem 1.2rem;
+    text-align: center;
+  }
+}
+
+/* ---------- Small phones ---------- */
+
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+
+  .section { padding: 3.4rem 0; }
+  .section--tight { padding: 2.6rem 0; }
+  .page-hero { padding: 3rem 0 2.6rem; }
+  .hero { padding: 3rem 0 3.6rem; }
+  .charcoal-strip, .cta-band { padding: 3.4rem 0; }
+
+  .section-head { margin-bottom: 2rem; }
+  .service-block { padding: 2.4rem 0; }
+
+  .footer-grid { grid-template-columns: 1fr; gap: 1.9rem; }
+
+  .card { padding: 1.6rem 1.35rem; }
+  .price-card { padding: 1.9rem 1.5rem; }
+  .practice-card { padding: 1.5rem 1.35rem; }
+
+  .stat-row { gap: 1.7rem; }
+  .pull-quote blockquote { font-size: 1.3rem; }
+
+  .faq-list summary { padding: 1rem 1.15rem; font-size: 1rem; }
+  .faq-list .faq-body { padding: 0 1.15rem 1.15rem; }
+
+  .sheet-head { flex-wrap: wrap; gap: 0.35rem; }
+  .sheet-foot { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
+}
+
+@media (max-width: 420px) {
+  /* stacked, full-width CTAs are far easier to hit one-handed */
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .hero-actions .btn { width: 100%; text-align: center; }
+
+  .price-card .plan-sub { min-height: 0; }
 }
 
 /* ---------- Page hero (interior pages) ---------- */
