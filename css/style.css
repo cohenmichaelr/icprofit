@@ -17,7 +17,11 @@
   --paper-deep: #F2EEE1;     /* alternate section background */
   --sheet: #FDFBF4;          /* ledger sheet paper */
   --line: #E3DDCB;           /* hairline borders */
-  --rule: rgba(140, 172, 171, 0.32);   /* ledger rule lines */
+  --rule: rgba(122, 158, 150, 0.34);        /* horizontal row rules */
+  --rule-col: rgba(122, 158, 150, 0.55);    /* money-column dividers */
+  --rule-cents: rgba(122, 158, 150, 0.26);  /* dollars | cents rule */
+  --ledger-paper: #F4F7EE;                  /* pale green ledger sheet */
+  --ledger-paper-deep: #E9F0E7;
   --margin-red: rgba(211, 74, 84, 0.45);
   --ink: #2B2C30;
 
@@ -28,6 +32,9 @@
 
   --shadow-card: 0 2px 6px rgba(38, 39, 43, 0.05), 0 10px 28px rgba(38, 39, 43, 0.07);
   --radius: 8px;
+
+  --brand-h: 84px;   /* header logo height; also sets the header's height */
+  --nav-pad: 1.1rem; /* .nav-wrap padding, top + bottom combined */
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -99,7 +106,11 @@ a { color: var(--sage-dark); }
   top: 0;
   z-index: 50;
   background: #FDFDFC;
-  border-bottom: 1px solid var(--line);
+  /* four-colour band separating the header from the page below */
+  border-bottom: 6px solid;
+  border-image: linear-gradient(90deg,
+    var(--red) 0 25%, var(--coral) 25% 50%,
+    var(--gold) 50% 75%, var(--sage) 75% 100%) 1;
 }
 
 .nav-wrap {
@@ -112,10 +123,13 @@ a { color: var(--sage-dark); }
 
 .brand { display: flex; align-items: center; text-decoration: none; }
 .brand-mark {
-  height: 84px;
+  height: var(--brand-h);
   width: auto;
-  filter: drop-shadow(0 2px 3px rgba(38, 39, 43, 0.28));
+  
 }
+
+
+
 
 .site-nav { display: flex; align-items: center; gap: 1.7rem; }
 
@@ -172,34 +186,83 @@ a { color: var(--sage-dark); }
 
 /* ---------- Ledger-paper section backgrounds ---------- */
 
+/* Columnar accounting paper: pale green sheet, horizontal row rules, and a
+   band of ruled money columns down the right — each split by a lighter cents
+   rule, the way a real ledger sheet is printed. */
 .ledger {
+  --row-h: 32px;
+  --col-w: 96px;
+  --cols: 4;
+  --cents: 30px;   /* width of the cents sub-column */
+
   position: relative;
-  background-color: var(--paper);
-  background-image: repeating-linear-gradient(
-    to bottom,
-    transparent 0,
-    transparent 31px,
-    var(--rule) 31px,
-    var(--rule) 32px
-  );
+  /* Establish a stacking context so the ruled overlays below can sit at
+     z-index -1: above this element's own paper, but behind all content. */
+  isolation: isolate;
+  background-color: var(--ledger-paper);
+  background-image:
+    /* money columns + cents rules (right-hand band) */
+    repeating-linear-gradient(to right,
+      var(--rule-col) 0, var(--rule-col) 1px,
+      transparent 1px, transparent calc(var(--col-w) - var(--cents)),
+      var(--rule-cents) calc(var(--col-w) - var(--cents)),
+      var(--rule-cents) calc(var(--col-w) - var(--cents) + 1px),
+      transparent calc(var(--col-w) - var(--cents) + 1px), transparent var(--col-w)),
+    /* horizontal row rules (full width) */
+    repeating-linear-gradient(to bottom,
+      transparent 0, transparent calc(var(--row-h) - 1px),
+      var(--rule) calc(var(--row-h) - 1px), var(--rule) var(--row-h));
+  background-size: calc(var(--col-w) * var(--cols)) 100%, 100% 100%;
+  background-position: right top, left top;
+  background-repeat: no-repeat, repeat;
 }
 
-/* double red margin line, as on a real ledger page */
+/* heavier double rule opening the final (balance) column */
+.ledger::after {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0;
+  right: calc(var(--col-w) * var(--cols));
+  width: 4px;
+  border-left: 1px solid var(--rule-col);
+  border-right: 1px solid var(--rule-col);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* double red margin line, as on a real ledger page. Positioned just outside
+   the content column (which is min(1120px, 92%), centred) so it runs down the
+   gutter instead of through the text. */
 .ledger::before {
   content: "";
   position: absolute;
   top: 0; bottom: 0;
-  left: clamp(20px, 5vw, 76px);
+  left: max(12px, calc(50% - min(560px, 46%) - 22px));
   width: 6px;
   border-left: 1.5px solid var(--margin-red);
   border-right: 1.5px solid var(--margin-red);
   pointer-events: none;
+  z-index: -1;
 }
 
-.ledger--deep { background-color: #ECF2EF; }  /* sage-washed ledger paper */
+.ledger--deep { background-color: var(--ledger-paper-deep); }
 
+/* On phones the sheet is only as wide as the content, so the column band and
+   margin rule would sit behind the text. Keep the row rules only. */
 @media (max-width: 900px) {
-  .ledger::before { display: none; }
+  .ledger::before,
+  .ledger::after { display: none; }
+  .ledger {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0, transparent calc(var(--row-h) - 1px),
+      var(--rule) calc(var(--row-h) - 1px), var(--rule) var(--row-h));
+    /* the multi-layer shorthand values must be reset too, or the single
+       remaining layer inherits "384px / no-repeat" and stops short */
+    background-size: 100% 100%;
+    background-position: left top;
+    background-repeat: repeat;
+  }
 }
 
 /* ---------- Ledger sheet (realistic ledger card) ---------- */
@@ -827,7 +890,7 @@ a { color: var(--sage-dark); }
 
 @media (max-width: 900px) {
   .nav-toggle { display: block; }
-  .brand-mark { height: 62px; }
+  :root { --brand-h: 62px; }
   .hero-logo { height: 104px; }
 
   .site-nav {
