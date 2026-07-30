@@ -25,6 +25,22 @@
   --margin-red: rgba(211, 74, 84, 0.45);
   --ink: #2B2C30;
 
+  /* Semantic tokens — the only things dark mode overrides. --charcoal and
+     friends stay fixed so gold/coral chips keep their dark text in both modes. */
+  --bg: #FAF7EF;              /* page background */
+  --surface: #FFFFFF;         /* cards, panels */
+  --header-bg: #FDFDFC;
+  --text: #2B2C30;
+  --heading: #26272B;
+  --border: #E3DDCB;
+  --sheet-border: #D9D2BC;
+  --sheet-rule: #26272B;      /* heavy rules on a ledger sheet */
+  --strip-bg: #26272B;        /* charcoal strips, CTA bands, footer */
+  --strip-heading: #FAF7EF;
+  --strip-text: #DDD9CC;
+  --strip-text-soft: #BEBAAD;
+  --strip-text-dim: #86837A;
+
   --font-head: "Playfair Display", Georgia, serif;
   --font-body: "Inter", "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", "Courier New", monospace;
@@ -37,14 +53,133 @@
   --nav-pad: 1.1rem; /* .nav-wrap padding, top + bottom combined */
 }
 
+/* ---------- Dark mode ----------
+   The ledger becomes a dark green sheet with pale rules. Accents are lifted
+   a little: #D34A54 on a near-black page reads too dim for small uppercase
+   text, so the palette brightens just enough to stay legible while keeping
+   the brand hues recognisable. Applied on the system preference, and by
+   data-theme when the visitor has made an explicit choice. */
+
+:root { color-scheme: light; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --bg: #15181A;
+    --surface: #1E2226;
+    --header-bg: #121417;
+    --text: #E3E1D9;
+    --heading: #F3F1E9;
+    --charcoal-soft: #ABA9A1;
+    --border: #2F3439;
+
+    --sheet: #191E1B;
+    --sheet-border: #2D342F;
+    --sheet-rule: #7FA39A;
+
+    --strip-bg: #0D0F10;
+    --strip-heading: #F3F1E9;
+    --strip-text: #CFCDC5;
+    --strip-text-soft: #A8A69E;
+    --strip-text-dim: #7C7A73;
+
+    --ledger-paper: #171C18;
+    --ledger-paper-deep: #131714;
+    --rule: rgba(140, 172, 171, 0.15);
+    --rule-col: rgba(140, 172, 171, 0.24);
+    --rule-cents: rgba(140, 172, 171, 0.11);
+    --margin-red: rgba(226, 102, 111, 0.38);
+
+    --sage-dark: #9CBFBB;
+    --red: #E2666F;
+    --coral: #F58A66;
+    --gold: #EBCC80;
+
+    --shadow-card: 0 2px 6px rgba(0, 0, 0, 0.35), 0 12px 30px rgba(0, 0, 0, 0.32);
+  }
+}
+
+/* Same palette, applied when the visitor has explicitly chosen dark. Plain CSS
+   has no way to share a declaration block across a media query boundary, so
+   these values are intentionally duplicated — edit both together. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #15181A;
+  --surface: #1E2226;
+  --header-bg: #121417;
+  --text: #E3E1D9;
+  --heading: #F3F1E9;
+  --charcoal-soft: #ABA9A1;
+  --border: #2F3439;
+
+  --sheet: #191E1B;
+  --sheet-border: #2D342F;
+  --sheet-rule: #7FA39A;
+
+  --strip-bg: #0D0F10;
+  --strip-heading: #F3F1E9;
+  --strip-text: #CFCDC5;
+  --strip-text-soft: #A8A69E;
+  --strip-text-dim: #7C7A73;
+
+  --ledger-paper: #171C18;
+  --ledger-paper-deep: #131714;
+  --rule: rgba(140, 172, 171, 0.15);
+  --rule-col: rgba(140, 172, 171, 0.24);
+  --rule-cents: rgba(140, 172, 171, 0.11);
+  --margin-red: rgba(226, 102, 111, 0.38);
+
+  --sage-dark: #9CBFBB;
+  --red: #E2666F;
+  --coral: #F58A66;
+  --gold: #EBCC80;
+
+  --shadow-card: 0 2px 6px rgba(0, 0, 0, 0.35), 0 12px 30px rgba(0, 0, 0, 0.32);
+}
+
+/* The logo is dark charcoal artwork, so on a dark header it needs lifting */
+:root[data-theme="dark"] .brand-mark,
+:root[data-theme="dark"] .hero-logo { filter: brightness(0) invert(0.92); }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .brand-mark,
+  :root:not([data-theme="light"]) .hero-logo { filter: brightness(0) invert(0.92); }
+}
+
+/* ---------- Theme toggle ---------- */
+
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.42rem 0.62rem;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--text);
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.theme-toggle:hover { border-color: var(--sage-dark); color: var(--sage-dark); }
+.theme-toggle .icon-sun { display: none; }
+:root[data-theme="dark"] .theme-toggle .icon-sun { display: inline; }
+:root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle .icon-sun { display: inline; }
+  :root:not([data-theme="light"]) .theme-toggle .icon-moon { display: none; }
+}
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 html { scroll-behavior: smooth; }
 
 body {
   font-family: var(--font-body);
-  color: var(--ink);
-  background: var(--paper);
+  color: var(--text);
+  background: var(--bg);
   font-size: 16.5px;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
@@ -59,7 +194,7 @@ img { max-width: 100%; display: block; }
 h1, h2, h3, h4 {
   font-family: var(--font-head);
   font-weight: 600;
-  color: var(--charcoal);
+  color: var(--heading);
   line-height: 1.2;
 }
 
@@ -105,7 +240,7 @@ a { color: var(--sage-dark); }
   position: sticky;
   top: 0;
   z-index: 50;
-  background: #FDFDFC;
+  background: var(--header-bg);
   /* four-colour band separating the header from the page below */
   border-bottom: 6px solid;
   border-image: linear-gradient(90deg,
@@ -135,7 +270,7 @@ a { color: var(--sage-dark); }
 
 .site-nav a {
   text-decoration: none;
-  color: var(--charcoal);
+  color: var(--text);
   font-weight: 500;
   font-size: 0.94rem;
   padding: 0.3rem 0;
@@ -148,13 +283,13 @@ a { color: var(--sage-dark); }
 .nav-toggle {
   display: none;
   background: none;
-  border: 1px solid var(--line);
+  border: 1px solid var(--border);
   border-radius: 6px;
   font-size: 1.25rem;
   line-height: 1;
   padding: 0.35rem 0.6rem;
   cursor: pointer;
-  color: var(--charcoal);
+  color: var(--text);
 }
 
 /* ---------- Buttons ---------- */
@@ -174,8 +309,8 @@ a { color: var(--sage-dark); }
 .btn-primary { background: var(--coral); color: #fff; }
 .btn-primary:hover { background: var(--red); color: #fff; }
 
-.btn-outline { border-color: var(--charcoal); color: var(--charcoal); }
-.btn-outline:hover { background: var(--charcoal); color: var(--paper); }
+.btn-outline { border-color: var(--heading); color: var(--heading); }
+.btn-outline:hover { background: var(--heading); color: var(--bg); }
 
 .btn-light { background: var(--gold); color: var(--charcoal); }
 .btn-light:hover { background: #d9b455; }
@@ -269,13 +404,13 @@ a { color: var(--sage-dark); }
 
 .ledger-sheet {
   background: var(--sheet);
-  border: 1px solid #D9D2BC;
+  border: 1px solid var(--sheet-border);
   border-radius: 4px;
   box-shadow: var(--shadow-card);
   overflow: hidden;
   font-family: var(--font-mono);
   font-size: 0.78rem;
-  color: var(--charcoal);
+  color: var(--text);
 }
 
 .ledger-sheet .sheet-head {
@@ -284,7 +419,7 @@ a { color: var(--sage-dark); }
   align-items: baseline;
   gap: 1rem;
   padding: 0.75rem 1rem 0.6rem;
-  border-bottom: 2px solid var(--charcoal);
+  border-bottom: 2px solid var(--sheet-rule);
   font-family: var(--font-body);
 }
 
@@ -329,7 +464,7 @@ a { color: var(--sage-dark); }
   color: var(--charcoal-soft);
   text-align: left;
   padding: 0.45rem 0.6rem;
-  border-bottom: 1px solid var(--charcoal);
+  border-bottom: 1px solid var(--sheet-rule);
 }
 
 .ledger-sheet td {
@@ -348,8 +483,8 @@ a { color: var(--sage-dark); }
 .ledger-sheet .credit { color: var(--sage-dark); }
 
 .ledger-sheet tr.total-row td {
-  border-top: 1px solid var(--charcoal);
-  border-bottom: 3px double var(--charcoal);
+  border-top: 1px solid var(--sheet-rule);
+  border-bottom: 3px double var(--sheet-rule);
   font-weight: 600;
   background: rgba(140, 172, 171, 0.10);
 }
@@ -432,8 +567,8 @@ a { color: var(--sage-dark); }
 }
 
 .card {
-  background: #fff;
-  border: 1px solid var(--line);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow-card);
   padding: 1.9rem 1.7rem;
@@ -461,7 +596,7 @@ a { color: var(--sage-dark); }
   width: 42px;
   height: 42px;
   margin-bottom: 1rem;
-  color: var(--charcoal);
+  color: var(--heading);
 }
 .card-icon svg { width: 100%; height: 100%; }
 
@@ -483,7 +618,7 @@ a { color: var(--sage-dark); }
   gap: 3.2rem;
   align-items: start;
   padding: 3.4rem 0;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--border);
 }
 
 .service-block:last-of-type { border-bottom: none; }
@@ -539,8 +674,8 @@ a { color: var(--sage-dark); }
 }
 
 .practice-card {
-  background: #fff;
-  border: 1px solid var(--line);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-left: 5px solid var(--sage);
   border-radius: var(--radius);
   box-shadow: var(--shadow-card);
@@ -558,9 +693,9 @@ a { color: var(--sage-dark); }
 .practice-card .focus {
   margin-top: 1rem;
   padding-top: 0.85rem;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--border);
   font-size: 0.85rem;
-  color: var(--charcoal);
+  color: var(--text);
 }
 
 .practice-card .focus strong {
@@ -577,8 +712,8 @@ a { color: var(--sage-dark); }
 .faq-list { max-width: 820px; margin: 0 auto; }
 
 .faq-list details {
-  background: #fff;
-  border: 1px solid var(--line);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-left: 5px solid var(--sage);
   border-radius: var(--radius);
   box-shadow: var(--shadow-card);
@@ -601,7 +736,7 @@ a { color: var(--sage-dark); }
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
-  color: var(--charcoal);
+  color: var(--heading);
 }
 
 .faq-list summary::-webkit-details-marker { display: none; }
@@ -636,8 +771,8 @@ a { color: var(--sage-dark); }
 }
 
 .price-card {
-  background: #fff;
-  border: 1px solid var(--line);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow-card);
   padding: 2.3rem 2rem;
@@ -658,7 +793,7 @@ a { color: var(--sage-dark); }
 .price-card--coral::before { background: var(--coral); }
 .price-card--gold::before  { background: var(--gold); }
 
-.price-card.featured { border-color: var(--charcoal); box-shadow: 0 14px 40px rgba(38,39,43,0.14); }
+.price-card.featured { border-color: var(--heading); box-shadow: 0 14px 40px rgba(38,39,43,0.14); }
 
 .price-card .plan-name { font-family: var(--font-head); font-size: 1.45rem; margin-bottom: 0.3rem; }
 
@@ -667,7 +802,7 @@ a { color: var(--sage-dark); }
 .price-card .price {
   font-size: 2.5rem;
   font-weight: 700;
-  color: var(--charcoal);
+  color: var(--heading);
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
@@ -690,7 +825,7 @@ a { color: var(--sage-dark); }
   top: -0.95rem;
   left: 50%;
   transform: translateX(-50%);
-  background: var(--charcoal);
+  background: var(--strip-bg);
   color: var(--gold);
   font-weight: 600;
   font-size: 0.72rem;
@@ -713,8 +848,8 @@ a { color: var(--sage-dark); }
 @media (max-width: 900px) { .split { grid-template-columns: 1fr; } }
 
 .charcoal-strip {
-  background: var(--charcoal);
-  color: #DDD9CC;
+  background: var(--strip-bg);
+  color: var(--strip-text);
   padding: 4.6rem 0;
   border-top: 6px solid;
   border-image: linear-gradient(90deg,
@@ -722,8 +857,8 @@ a { color: var(--sage-dark); }
     var(--gold) 50% 75%, var(--sage) 75% 100%) 1;
 }
 
-.charcoal-strip h2 { color: var(--paper); }
-.charcoal-strip .lede { color: #BEBAAD; }
+.charcoal-strip h2 { color: var(--strip-heading); }
+.charcoal-strip .lede { color: var(--strip-text-soft); }
 .charcoal-strip .kicker { color: var(--gold); }
 
 .stat-row {
@@ -745,7 +880,7 @@ a { color: var(--sage-dark); }
 .stat:nth-child(3) .stat-num { color: var(--gold); }
 .stat:nth-child(4) .stat-num { color: var(--sage); }
 
-.stat .stat-label { margin-top: 0.55rem; font-size: 0.92rem; color: #BEBAAD; }
+.stat .stat-label { margin-top: 0.55rem; font-size: 0.92rem; color: var(--strip-text-soft); }
 
 /* ---------- Quote ---------- */
 
@@ -756,7 +891,7 @@ a { color: var(--sage-dark); }
   font-style: italic;
   font-size: 1.55rem;
   line-height: 1.5;
-  color: var(--charcoal);
+  color: var(--heading);
 }
 
 .pull-quote cite {
@@ -774,7 +909,7 @@ a { color: var(--sage-dark); }
 /* ---------- CTA band ---------- */
 
 .cta-band {
-  background: var(--charcoal);
+  background: var(--strip-bg);
   padding: 4.2rem 0;
   text-align: center;
   border-top: 6px solid;
@@ -783,10 +918,60 @@ a { color: var(--sage-dark); }
     var(--gold) 50% 75%, var(--sage) 75% 100%) 1;
 }
 
-.cta-band h2 { color: var(--paper); margin-bottom: 0.9rem; }
-.cta-band p { color: #BEBAAD; max-width: 42rem; margin: 0 auto 1.9rem; }
+.cta-band h2 { color: var(--strip-heading); margin-bottom: 0.9rem; }
+.cta-band p { color: var(--strip-text-soft); max-width: 42rem; margin: 0 auto 1.9rem; }
 
 /* ---------- Team ---------- */
+
+/* Founder, given the lead position above the rest of the team */
+.team-lead {
+  display: grid;
+  grid-template-columns: 288px 1fr;
+  gap: 2.4rem;
+  align-items: start;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 5px solid var(--red);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  padding: 2.2rem;
+  margin-bottom: 1.7rem;
+}
+
+.team-lead > * { min-width: 0; }
+
+.team-lead-photo img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.team-lead h3 { font-size: 1.7rem; margin-bottom: 0.2rem; }
+
+.team-lead .role {
+  color: var(--red);
+  font-weight: 600;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  margin: 0.25rem 0 1rem;
+}
+
+.team-lead p { color: var(--charcoal-soft); font-size: 0.97rem; }
+
+@media (max-width: 800px) {
+  .team-lead {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 1.7rem 1.4rem;
+    text-align: center;
+  }
+  .team-lead-photo { max-width: 230px; margin: 0 auto; }
+  .team-lead p { text-align: left; }
+}
 
 .team-grid {
   display: grid;
@@ -795,8 +980,8 @@ a { color: var(--sage-dark); }
 }
 
 .team-card {
-  background: #fff;
-  border: 1px solid var(--line);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow-card);
   padding: 2.1rem 1.7rem;
@@ -836,8 +1021,8 @@ a { color: var(--sage-dark); }
 /* ---------- Footer ---------- */
 
 .site-footer {
-  background: var(--charcoal);
-  color: #BEBAAD;
+  background: var(--strip-bg);
+  color: var(--strip-text-soft);
   padding: 3.6rem 0 2rem;
   border-top: 5px solid var(--gold);
 }
@@ -863,7 +1048,7 @@ a { color: var(--sage-dark); }
 .footer-grid li { margin-bottom: 0.5rem; font-size: 0.93rem; }
 .footer-grid p { font-size: 0.93rem; }
 
-.footer-grid a { color: #BEBAAD; text-decoration: none; }
+.footer-grid a { color: var(--strip-text-soft); text-decoration: none; }
 .footer-grid a:hover { color: var(--gold); }
 
 .footer-wordmark {
@@ -881,7 +1066,7 @@ a { color: var(--sage-dark); }
   flex-wrap: wrap;
   gap: 0.8rem;
   font-size: 0.85rem;
-  color: #86837A;
+  color: var(--strip-text-dim);
 }
 
 @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
@@ -899,8 +1084,8 @@ a { color: var(--sage-dark); }
     top: 100%;
     left: 0;
     right: 0;
-    background: #FDFDFC;
-    border-bottom: 1px solid var(--line);
+    background: var(--header-bg);
+    border-bottom: 1px solid var(--border);
     flex-direction: column;
     align-items: stretch;
     padding: 0.8rem 4% 1.2rem;
@@ -915,12 +1100,12 @@ a { color: var(--sage-dark); }
   /* comfortable tap targets */
   .site-nav a {
     padding: 0.75rem 0.25rem;
-    border-bottom: 1px solid var(--line);
+    border-bottom: 1px solid var(--border);
     font-size: 1rem;
   }
 
   .site-nav a:last-child { border-bottom: none; }
-  .site-nav a.active { border-bottom-color: var(--line); color: var(--red); }
+  .site-nav a.active { border-bottom-color: var(--border); color: var(--red); }
 
   .site-nav a.btn {
     margin-top: 0.8rem;
@@ -980,8 +1165,8 @@ a { color: var(--sage-dark); }
 .muted { color: var(--charcoal-soft); }
 
 .note-box {
-  background: #fff;
-  border: 1px solid var(--line);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-left: 5px solid var(--gold);
   border-radius: var(--radius);
   box-shadow: var(--shadow-card);
