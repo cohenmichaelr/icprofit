@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('consultForm');
   if (!form) return;
 
-  const TO = 'hello@icprofit.com';
+  const TO = 'info@icprofit.com';
   const note = document.getElementById('formNote');
 
   const say = (msg, ok) => {
