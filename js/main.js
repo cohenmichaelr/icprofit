@@ -20,7 +20,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   btn.addEventListener('click', () => {
     const next = isDark() ? 'light' : 'dark';
+
+    // Suppress transitions for one frame. Without this, Chrome leaves any
+    // transitioned colour at its previous value when the custom property
+    // behind it changes, which can strand light text on a light background.
+    root.classList.add('theme-switching');
     root.setAttribute('data-theme', next);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => root.classList.remove('theme-switching'));
+    });
+
     try { localStorage.setItem(KEY, next); } catch (e) { /* private mode */ }
     syncLabel();
   });
