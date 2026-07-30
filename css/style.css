@@ -139,13 +139,17 @@
   --shadow-card: 0 2px 6px rgba(0, 0, 0, 0.35), 0 12px 30px rgba(0, 0, 0, 0.32);
 }
 
-/* The logo is dark charcoal artwork, so on a dark header it needs lifting */
-:root[data-theme="dark"] .brand-mark,
-:root[data-theme="dark"] .hero-logo { filter: brightness(0) invert(0.92); }
+/* The logo's mark and wordmark are charcoal, which disappears on a dark
+   header. A filter would flatten the four accent bars to grey, so a recoloured
+   variant is swapped in instead — only the charcoal becomes light. */
+.brand-mark--dark { display: none; }
+
+:root[data-theme="dark"] .brand-mark--light { display: none; }
+:root[data-theme="dark"] .brand-mark--dark { display: block; }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .brand-mark,
-  :root:not([data-theme="light"]) .hero-logo { filter: brightness(0) invert(0.92); }
+  :root:not([data-theme="light"]) .brand-mark--light { display: none; }
+  :root:not([data-theme="light"]) .brand-mark--dark { display: block; }
 }
 
 /* ---------- Theme toggle ---------- */
@@ -1017,6 +1021,181 @@ a { color: var(--sage-dark); }
 }
 
 .team-card p { font-size: 0.92rem; color: var(--charcoal-soft); }
+
+/* ---------- Consultation page ---------- */
+
+.hero-points { margin-top: 1.6rem; }
+.hero-points li { color: var(--charcoal-soft); }
+
+.booking-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 0.65fr;
+  gap: 2.2rem;
+  align-items: start;
+}
+
+.booking-grid > * { min-width: 0; }
+
+@media (max-width: 900px) {
+  .booking-grid { grid-template-columns: 1fr; }
+}
+
+.form-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 5px solid var(--coral);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  padding: 2.2rem;
+}
+
+.form-card h2 { font-size: 1.6rem; }
+
+@media (max-width: 640px) {
+  .form-card { padding: 1.6rem 1.35rem; }
+}
+
+.consult-form { margin-top: 1.8rem; }
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.1rem;
+}
+
+.field-row > * { min-width: 0; }
+
+@media (max-width: 620px) {
+  .field-row { grid-template-columns: 1fr; }
+}
+
+.field { margin-bottom: 1.1rem; border: 0; padding: 0; }
+
+.field label,
+.field legend {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--charcoal-soft);
+  margin-bottom: 0.4rem;
+  padding: 0;
+}
+
+.field .req { color: var(--red); }
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.7rem 0.85rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.field textarea { resize: vertical; min-height: 7rem; }
+
+.field input::placeholder,
+.field textarea::placeholder { color: var(--charcoal-soft); opacity: 0.7; }
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--sage-dark);
+  box-shadow: 0 0 0 3px rgba(140, 172, 171, 0.28);
+}
+
+/* only flag invalid fields after a submit attempt, not while typing */
+.consult-form.validated input:invalid,
+.consult-form.validated textarea:invalid {
+  border-color: var(--red);
+}
+
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr));
+  gap: 0.5rem 1rem;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.95rem;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--text);
+  margin-bottom: 0;
+  cursor: pointer;
+}
+
+.check input { width: auto; accent-color: var(--coral); }
+
+.form-submit { margin-top: 0.4rem; }
+
+.form-note {
+  margin-top: 1.1rem;
+  font-size: 0.92rem;
+  color: var(--charcoal-soft);
+}
+
+.form-status {
+  margin-top: 1.1rem;
+  padding: 0.9rem 1.1rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+}
+
+.form-status--ok { border-left: 4px solid var(--sage); }
+.form-status--err { border-left: 4px solid var(--red); }
+
+.booking-aside .note-box h3 { font-size: 1.1rem; margin-bottom: 0.8rem; }
+
+.step-list {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: var(--charcoal-soft);
+  font-size: 0.94rem;
+}
+
+.step-list li { margin-bottom: 0.7rem; }
+.step-list li:last-child { margin-bottom: 0; }
+.step-list strong { color: var(--heading); }
+
+.contact-list { list-style: none; font-size: 0.94rem; }
+
+.contact-list li {
+  display: flex;
+  gap: 0.8rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--charcoal-soft);
+}
+
+.contact-list li:last-child { border-bottom: none; }
+
+.contact-list span {
+  flex: 0 0 4.6rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  color: var(--red);
+  padding-top: 0.18rem;
+}
+
+.scheduler-slot p { font-size: 0.94rem; }
 
 /* ---------- Footer ---------- */
 

@@ -33,6 +33,70 @@ document.addEventListener('DOMContentLoaded', () => {
   syncLabel();
 });
 
+// Consultation form. This is a static site with no backend, so rather than
+// posting into a void the form composes a prefilled email to the firm. Swap
+// this for a real endpoint (Formspree, Netlify Forms, your CRM) by giving the
+// <form> an action and removing this handler.
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('consultForm');
+  if (!form) return;
+
+  const TO = 'hello@icprofit.com';
+  const note = document.getElementById('formNote');
+
+  const say = (msg, ok) => {
+    let box = form.querySelector('.form-status');
+    if (!box) {
+      box = document.createElement('p');
+      box.className = 'form-status';
+      box.setAttribute('role', 'status');
+      form.insertBefore(box, note);
+    }
+    box.classList.toggle('form-status--ok', !!ok);
+    box.classList.toggle('form-status--err', !ok);
+    box.textContent = msg;
+  };
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    form.classList.add('validated');
+
+    if (!form.checkValidity()) {
+      const bad = form.querySelector(':invalid');
+      if (bad) bad.focus();
+      say('Please add your name and a valid email so we can reply.', false);
+      return;
+    }
+
+    const val = (id) => (document.getElementById(id).value || '').trim();
+    const interests = [...form.querySelectorAll('input[name="interest"]:checked')]
+      .map((c) => c.value);
+
+    const lines = [
+      ['Name', val('name')],
+      ['Firm', val('firm')],
+      ['Email', val('email')],
+      ['Phone', val('phone')],
+      ['Firm size', val('size')],
+      ['Software', val('software')],
+      ['Interested in', interests.join(', ')],
+      ['', ''],
+      ['Notes', val('message')]
+    ]
+      .filter(([label, value]) => value || label === '')
+      .map(([label, value]) => (label ? label + ': ' + value : ''))
+      .join('\n');
+
+    const subject = 'Consultation request' + (val('firm') ? ' — ' + val('firm') : '');
+    const href = 'mailto:' + TO +
+      '?subject=' + encodeURIComponent(subject) +
+      '&body=' + encodeURIComponent(lines);
+
+    window.location.href = href;
+    say('Opening your email app with the details filled in. If nothing happens, email ' + TO + ' directly.', true);
+  });
+});
+
 // Mobile nav toggle
 document.addEventListener('DOMContentLoaded', () => {
   const toggle = document.querySelector('.nav-toggle');

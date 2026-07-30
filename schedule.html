@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schedule a Consultation | ICProfit — Accounting for Law Firms</title>
+  <meta name="description" content="Book a free, no-obligation consultation with ICProfit. We'll review your books and trust accounts, flag any compliance risks, and send you a flat monthly quote.">
+  <link rel="icon" href="logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
+  <script>(function(){try{var t=localStorage.getItem("icprofit-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a class="brand" href="index.html">
+      <img class="brand-mark brand-mark--light" src="logo.png" alt="ICProfit — Accounting for Law Firms">
+      <img class="brand-mark brand-mark--dark" src="logo-dark.png" alt="" aria-hidden="true">
+    </a>
+    <nav class="site-nav" id="siteNav">
+      <a href="index.html">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="services.html">Services</a>
+      <a href="practice-areas.html">Practice Areas</a>
+      <a href="faq.html">FAQ</a>
+      <a href="pricing.html">Pricing</a>
+      <a class="btn btn-primary" href="schedule.html">Schedule a Consultation</a>
+      <button class="theme-toggle" type="button" id="themeToggle"
+              aria-label="Switch to dark theme" title="Toggle dark mode"><span class="icon-moon" aria-hidden="true">☾</span><span class="icon-sun" aria-hidden="true">☀</span></button>
+    </nav>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+  </div>
+</header>
+
+<!-- PAGE HERO -->
+<section class="page-hero ledger">
+  <div class="container">
+    <p class="kicker">Schedule a Consultation</p>
+    <h1>Let's talk about <span class="accent">your firm's numbers</span></h1>
+    <p class="lede">A free, no-obligation conversation about where your practice stands today. Tell us how you bill, what software you use, and what's not working — we'll take it from there.</p>
+    <ul class="check-list hero-points">
+      <li>Books that are clean, current, and ready for your CPA</li>
+      <li>Trust accounts reconciled three ways, every month</li>
+      <li>A flat monthly quote before you commit to anything</li>
+    </ul>
+    <div class="stripe-rule" aria-hidden="true">
+      <span class="s-red"></span><span class="s-coral"></span><span class="s-gold"></span><span class="s-sage"></span>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section class="section ledger">
+  <div class="container booking-grid">
+
+    <!-- FORM -->
+    <div class="form-card" id="request">
+      <h2>Request your consultation</h2>
+      <p class="muted mt-2">Everything here is optional except your name and email — the more you share, the more useful the first call will be.</p>
+
+      <form id="consultForm" class="consult-form" novalidate>
+        <div class="field-row">
+          <div class="field">
+            <label for="name">Your name <span class="req" aria-hidden="true">*</span></label>
+            <input type="text" id="name" name="name" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="firm">Firm name</label>
+            <input type="text" id="firm" name="firm" autocomplete="organization">
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="email">Email <span class="req" aria-hidden="true">*</span></label>
+            <input type="email" id="email" name="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" name="phone" autocomplete="tel">
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="size">Firm size</label>
+            <select id="size" name="size">
+              <option value="">Select…</option>
+              <option>Solo practitioner</option>
+              <option>2–5 attorneys</option>
+              <option>6–15 attorneys</option>
+              <option>16+ attorneys</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="software">Current accounting software</label>
+            <input type="text" id="software" name="software" placeholder="QuickBooks, Clio, Xero…">
+          </div>
+        </div>
+
+        <fieldset class="field">
+          <legend>What are you interested in?</legend>
+          <div class="checkbox-grid">
+            <label class="check"><input type="checkbox" name="interest" value="Advisory"> Advisory</label>
+            <label class="check"><input type="checkbox" name="interest" value="Bookkeeping"> Bookkeeping</label>
+            <label class="check"><input type="checkbox" name="interest" value="Accounting &amp; trust compliance"> Accounting &amp; trust compliance</label>
+            <label class="check"><input type="checkbox" name="interest" value="Fractional CFO"> Fractional CFO</label>
+            <label class="check"><input type="checkbox" name="interest" value="Catch-up / clean-up"> Catch-up / clean-up</label>
+            <label class="check"><input type="checkbox" name="interest" value="Not sure yet"> Not sure yet</label>
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <label for="message">What would you like to cover?</label>
+          <textarea id="message" name="message" rows="5" placeholder="Books behind, trust account questions, wondering whether the firm is actually profitable…"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary form-submit">Send Request</button>
+
+        <p class="form-note" id="formNote">
+          Prefer to write directly? Email <a href="mailto:hello@icprofit.com">hello@icprofit.com</a>
+          or call <a href="tel:+15555550155">(555) 555-0155</a>.
+        </p>
+      </form>
+    </div>
+
+    <!-- ASIDE -->
+    <aside class="booking-aside">
+      <div class="note-box">
+        <h3>What to expect</h3>
+        <ol class="step-list">
+          <li><strong>A 30-minute call.</strong> How you bill, how you hold client funds, and where the pain is today. No pitch deck.</li>
+          <li><strong>A look at your books.</strong> We review your accounts and trust reconciliations and tell you plainly what we find — including if you're already in good shape.</li>
+          <li><strong>A flat quote.</strong> One monthly number based on your firm's size and volume, with no hourly meters and no obligation.</li>
+        </ol>
+      </div>
+
+      <div class="note-box mt-2">
+        <h3>Contact us directly</h3>
+        <ul class="contact-list">
+          <li><span>Email</span><a href="mailto:hello@icprofit.com">hello@icprofit.com</a></li>
+          <li><span>Phone</span><a href="tel:+15555550155">(555) 555-0155</a></li>
+          <li><span>Hours</span>Mon–Fri, 9am–5pm ET</li>
+          <li><span>Serving</span>Law firms nationwide, fully remote</li>
+        </ul>
+      </div>
+
+      <!--
+        Scheduling widget slot. To let visitors pick a time directly, paste your
+        Calendly / SavvyCal / Acuity embed inside this element and it will sit
+        in the page flow with the rest of the aside.
+      -->
+      <div class="note-box mt-2 scheduler-slot">
+        <h3>Prefer to pick a time?</h3>
+        <p>Booking calendar coming soon — send the form and we'll reply the same business day with times that work.</p>
+      </div>
+    </aside>
+
+  </div>
+</section>
+
+<!-- REASSURANCE -->
+<section class="charcoal-strip">
+  <div class="container">
+    <div class="section-head centered">
+      <p class="kicker">No Pressure</p>
+      <h2>What happens after you send this</h2>
+      <p class="lede">We reply the same business day. If we're not the right fit for your practice, we'll say so and point you somewhere better.</p>
+    </div>
+    <div class="stat-row">
+      <div class="stat">
+        <div class="stat-num">Free</div>
+        <div class="stat-label">The consultation and the review of your books cost nothing, whether or not you hire us.</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">30 min</div>
+        <div class="stat-label">That's the whole first call. Bring questions; you don't need to prepare anything.</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">Flat</div>
+        <div class="stat-label">One monthly fee quoted up front. No hourly billing and no surprise invoices.</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">Private</div>
+        <div class="stat-label">Anything you share stays confidential, including if you're just exploring options.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-wordmark">ICPROFIT</div>
+        <p>An accounting firm serving law firms nationwide. Bookkeeping, trust accounting, advisory, and fractional CFO services.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="practice-areas.html">Practice Areas</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <ul>
+          <li><a href="services.html#advisory">Advisory</a></li>
+          <li><a href="services.html#bookkeeping">Bookkeeping</a></li>
+          <li><a href="services.html#accounting">Accounting</a></li>
+          <li><a href="services.html#cfo">Fractional CFO</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:hello@icprofit.com">hello@icprofit.com</a></li>
+          <li>(555) 555-0155</li>
+          <li>Serving law firms nationwide — fully remote</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 ICProfit. All rights reserved.</span>
+      <span>Sample content for design review — not legal, tax, or accounting advice.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
