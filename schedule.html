@@ -22,14 +22,27 @@
     </a>
     <nav class="site-nav" id="siteNav">
       <a href="index.html">Home</a>
-      <a href="about.html">About Us</a>
-      <a href="services.html">Services</a>
+      <div class="nav-item">
+        <a href="about.html">About Us</a>
+        <div class="sub-nav">
+          <a href="about.html#our-story">Our Story</a>
+          <a href="about.html#the-team">The Team</a>
+          <a href="about.html#how-we-work">How We Work</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="services.html">Services</a>
+        <div class="sub-nav">
+          <a href="services.html#advisory">Advisory</a>
+          <a href="services.html#bookkeeping">Bookkeeping</a>
+          <a href="services.html#accounting">Accounting</a>
+          <a href="services.html#cfo">Fractional CFO</a>
+        </div>
+      </div>
       <a href="practice-areas.html">Practice Areas</a>
       <a href="faq.html">FAQ</a>
       <a href="pricing.html">Pricing</a>
       <a class="btn btn-primary" href="schedule.html">Schedule a Consultation</a>
-      <button class="theme-toggle" type="button" id="themeToggle"
-              aria-label="Switch to dark theme" title="Toggle dark mode"><span class="icon-moon" aria-hidden="true">☾</span><span class="icon-sun" aria-hidden="true">☀</span></button>
     </nav>
     <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
   </div>
@@ -61,7 +74,29 @@
       <h2>Request your consultation</h2>
       <p class="muted mt-2">Everything here is optional except your name and email — the more you share, the more useful the first call will be.</p>
 
-      <form id="consultForm" class="consult-form" novalidate>
+      <!--
+        Submissions are sent by Web3Forms (https://web3forms.com), which lets a
+        static site email a form without a backend. To activate it: enter
+        info@icprofit.com at web3forms.com, copy the access key they email back,
+        and paste it as the value below. The key is meant to be public — it only
+        allows delivery to the address it was issued for.
+
+        Until a real key is in place the form falls back to composing the message
+        in the visitor's email app, so it is never a dead end.
+      -->
+      <!-- Posts to FormSubmit, which relays submissions to info@icprofit.com.
+           The endpoint is also set on the JS handler in js/main.js; change both
+           together if you switch provider. Requires one-time activation: the
+           first submission emails a confirmation link to info@icprofit.com. -->
+      <form id="consultForm" class="consult-form" novalidate
+            action="https://formsubmit.co/info@icprofit.com" method="POST">
+        <input type="hidden" name="_subject" value="New consultation request — icprofit.com">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_next" value="https://cohenmichaelr.github.io/icprofit-redesign/schedule.html?sent=1">
+        <!-- Spam trap: bots fill this in, people never see it. -->
+        <input type="text" name="_honey" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+
         <div class="field-row">
           <div class="field">
             <label for="name">Your name <span class="req" aria-hidden="true">*</span></label>
@@ -229,6 +264,8 @@
     <div class="footer-bottom">
       <span>© 2026 ICProfit. All rights reserved.</span>
       <span>Not legal, tax, or accounting advice.</span>
+      <button class="theme-toggle" type="button" id="themeToggle"
+              aria-label="Switch to dark theme" title="Toggle dark mode"><span class="icon-moon" aria-hidden="true">☾</span><span class="icon-sun" aria-hidden="true">☀</span></button>
     </div>
   </div>
 </footer>

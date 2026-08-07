@@ -42,15 +42,20 @@ document.addEventListener('DOMContentLoaded', () => {
   syncLabel();
 });
 
-// Consultation form. This is a static site with no backend, so rather than
-// posting into a void the form composes a prefilled email to the firm. Swap
-// this for a real endpoint (Formspree, Netlify Forms, your CRM) by giving the
-// <form> an action and removing this handler.
+// Consultation form. Posts to FormSubmit, which relays the submission as an
+// email to the address below. The <form> also carries a plain action/method so
+// it still works with JavaScript disabled; this handler upgrades that to an
+// in-page POST so the visitor never leaves the page.
+//
+// To change provider, update ENDPOINT here and the form's action in
+// schedule.html. For Netlify Forms, drop this handler and add
+// data-netlify="true" to the form instead.
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('consultForm');
   if (!form) return;
 
   const TO = 'info@icprofit.com';
+  const ENDPOINT = 'https://formsubmit.co/ajax/' + TO;
   const note = document.getElementById('formNote');
 
   const say = (msg, ok) => {
@@ -66,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
     box.textContent = msg;
   };
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     form.classList.add('validated');
 
@@ -77,32 +82,59 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const val = (id) => (document.getElementById(id).value || '').trim();
+    // Spam trap: only a bot fills the hidden field, so drop it silently.
+    const honey = form.querySelector('[name="_honey"]');
+    if (honey && honey.value) return;
+
+    const val = (id) => {
+      const el = document.getElementById(id);
+      return el ? (el.value || '').trim() : '';
+    };
     const interests = [...form.querySelectorAll('input[name="interest"]:checked')]
       .map((c) => c.value);
 
-    const lines = [
-      ['Name', val('name')],
-      ['Firm', val('firm')],
-      ['Email', val('email')],
-      ['Phone', val('phone')],
-      ['Firm size', val('size')],
-      ['Software', val('software')],
-      ['Interested in', interests.join(', ')],
-      ['', ''],
-      ['Notes', val('message')]
-    ]
-      .filter(([label, value]) => value || label === '')
-      .map(([label, value]) => (label ? label + ': ' + value : ''))
-      .join('\n');
+    const payload = {
+      _subject: 'Consultation request' + (val('firm') ? ' — ' + val('firm') : ''),
+      _template: 'table',
+      _captcha: 'false',
+      Name: val('name'),
+      Firm: val('firm'),
+      Email: val('email'),
+      Phone: val('phone'),
+      'Firm size': val('size'),
+      'Current software': val('software'),
+      'Interested in': interests.join(', '),
+      Notes: val('message')
+    };
 
-    const subject = 'Consultation request' + (val('firm') ? ' — ' + val('firm') : '');
-    const href = 'mailto:' + TO +
-      '?subject=' + encodeURIComponent(subject) +
-      '&body=' + encodeURIComponent(lines);
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const label = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+    say('Sending your request…', true);
 
-    window.location.href = href;
-    say('Opening your email app with the details filled in. If nothing happens, email ' + TO + ' directly.', true);
+    try {
+      const res = await fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const body = await res.json().catch(() => ({}));
+
+      if (!res.ok || String(body.success) !== 'true') {
+        throw new Error(body.message || 'HTTP ' + res.status);
+      }
+
+      form.reset();
+      form.classList.remove('validated');
+      say('Thank you — your request has been sent. We reply the same business day.', true);
+    } catch (err) {
+      say('Sorry, that did not go through. Please email ' + TO +
+          ' or call (561) 404-0060 and we will pick it up from there.', false);
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = label;
+    }
   });
 });
 

@@ -22,14 +22,27 @@
     </a>
     <nav class="site-nav" id="siteNav">
       <a href="index.html">Home</a>
-      <a href="about.html">About Us</a>
-      <a href="services.html">Services</a>
+      <div class="nav-item">
+        <a href="about.html">About Us</a>
+        <div class="sub-nav">
+          <a href="about.html#our-story">Our Story</a>
+          <a href="about.html#the-team">The Team</a>
+          <a href="about.html#how-we-work">How We Work</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="services.html">Services</a>
+        <div class="sub-nav">
+          <a href="services.html#advisory">Advisory</a>
+          <a href="services.html#bookkeeping">Bookkeeping</a>
+          <a href="services.html#accounting">Accounting</a>
+          <a href="services.html#cfo">Fractional CFO</a>
+        </div>
+      </div>
       <a href="practice-areas.html">Practice Areas</a>
       <a href="faq.html">FAQ</a>
       <a href="pricing.html">Pricing</a>
       <a class="btn btn-primary" href="schedule.html">Schedule a Consultation</a>
-      <button class="theme-toggle" type="button" id="themeToggle"
-              aria-label="Switch to dark theme" title="Toggle dark mode"><span class="icon-moon" aria-hidden="true">☾</span><span class="icon-sun" aria-hidden="true">☀</span></button>
     </nav>
     <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
   </div>
@@ -41,11 +54,6 @@
     <p class="kicker">About Us</p>
     <h1>The accounting firm behind <span class="accent">well-run law practices</span></h1>
     <p class="lede">Attorneys are trained to practice law, not to reconcile trust accounts or read financial statements. ICProfit exists to close that gap — we handle the financial side of your firm so you can focus on your clients.</p>
-    <nav class="jump-nav" aria-label="On this page">
-      <a href="#our-story">Our Story</a>
-      <a href="#the-team">The Team</a>
-      <a href="#how-we-work">How We Work</a>
-    </nav>
     <div class="stripe-rule" aria-hidden="true">
       <span class="s-red"></span><span class="s-coral"></span><span class="s-gold"></span><span class="s-sage"></span>
     </div>
@@ -230,6 +238,8 @@ Before joining ICProfit, Harold served as the Asia-Pacific Regional Accounting C
     <div class="footer-bottom">
       <span>© 2026 ICProfit. All rights reserved.</span>
       <span>Not legal, tax, or accounting advice.</span>
+      <button class="theme-toggle" type="button" id="themeToggle"
+              aria-label="Switch to dark theme" title="Toggle dark mode"><span class="icon-moon" aria-hidden="true">☾</span><span class="icon-sun" aria-hidden="true">☀</span></button>
     </div>
   </div>
 </footer>
