@@ -54,8 +54,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('consultForm');
   if (!form) return;
 
-  const TO = 'info@icprofit.com';
-  const ENDPOINT = 'https://formsubmit.co/ajax/' + TO;
+  // Derive the endpoint from the form's own action so the JS path and the
+  // no-JavaScript fallback can never point at different addresses. Change the
+  // recipient in schedule.html only.
+  const ACTION = form.getAttribute('action') || '';
+  const ENDPOINT = ACTION.replace('formsubmit.co/', 'formsubmit.co/ajax/');
+  const TO = ACTION.split('/').pop() || 'info@icprofit.com';
   const note = document.getElementById('formNote');
 
   const say = (msg, ok) => {
@@ -129,6 +133,9 @@ document.addEventListener('DOMContentLoaded', () => {
       form.classList.remove('validated');
       say('Thank you — your request has been sent. We reply the same business day.', true);
     } catch (err) {
+      // Visitors get a plain fallback; the real reason goes to the console so
+      // setup problems (an unactivated form, a wrong address) are diagnosable.
+      console.warn('Consultation form did not send:', err.message);
       say('Sorry, that did not go through. Please email ' + TO +
           ' or call (561) 404-0060 and we will pick it up from there.', false);
     } finally {

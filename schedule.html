@@ -75,25 +75,20 @@
       <p class="muted mt-2">Everything here is optional except your name and email — the more you share, the more useful the first call will be.</p>
 
       <!--
-        Submissions are sent by Web3Forms (https://web3forms.com), which lets a
-        static site email a form without a backend. To activate it: enter
-        info@icprofit.com at web3forms.com, copy the access key they email back,
-        and paste it as the value below. The key is meant to be public — it only
-        allows delivery to the address it was issued for.
+        Submissions are relayed as email by FormSubmit. The recipient is the
+        address at the end of the action below, and it is the single source of
+        truth: js/main.js derives its endpoint from this attribute, so changing
+        it here changes both the JavaScript path and the no-JS fallback.
 
-        Until a real key is in place the form falls back to composing the message
-        in the visitor's email app, so it is never a dead end.
+        One-time setup: the first submission sends an "Activate Form" link to
+        that address. Until it is clicked, FormSubmit rejects every submission
+        and the visitor sees the failure message.
       -->
-      <!-- Posts to FormSubmit, which relays submissions to info@icprofit.com.
-           The endpoint is also set on the JS handler in js/main.js; change both
-           together if you switch provider. Requires one-time activation: the
-           first submission emails a confirmation link to info@icprofit.com. -->
-      <form id="consultForm" class="consult-form" novalidate
-            action="https://formsubmit.co/info@icprofit.com" method="POST">
+      <form id="consultForm" class="consult-form" novalidate action="https://formsubmit.co/cohenmichaelr@gmail.com" method="POST">
+			
         <input type="hidden" name="_subject" value="New consultation request — icprofit.com">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_next" value="https://cohenmichaelr.github.io/icprofit-redesign/schedule.html?sent=1">
         <!-- Spam trap: bots fill this in, people never see it. -->
         <input type="text" name="_honey" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
 
