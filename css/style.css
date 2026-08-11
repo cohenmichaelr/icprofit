@@ -494,6 +494,7 @@ a { color: var(--sage-dark); }
    the ruling is visible around the content but never behind it. Cards, the FAQ
    list and the note boxes already carry their own surface. */
 
+.panel,
 .page-hero > .container,
 .hero .hero-grid > div:first-child,
 .ledger .section-head,
@@ -513,6 +514,7 @@ a { color: var(--sage-dark); }
 .ledger > .container > p.center { padding: 1.2rem 2rem; }
 
 @media (max-width: 640px) {
+  .panel,
   .page-hero > .container,
   .hero .hero-grid > div:first-child,
   .ledger .section-head,
