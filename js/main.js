@@ -129,9 +129,19 @@ document.addEventListener('DOMContentLoaded', () => {
         throw new Error(body.message || 'HTTP ' + res.status);
       }
 
+      // Swap the form for a clear confirmation, so the visitor is left in no
+      // doubt the message went. Falls back to the inline status line if the
+      // panel is missing.
       form.reset();
       form.classList.remove('validated');
-      say('Thank you — your request has been sent. We reply the same business day.', true);
+      const done = document.getElementById('formSuccess');
+      if (done) {
+        form.hidden = true;
+        done.hidden = false;
+        done.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        say('Thank you — your request has been sent. We reply the same business day.', true);
+      }
     } catch (err) {
       // Visitors get a plain fallback; the real reason goes to the console so
       // setup problems (an unactivated form, a wrong address) are diagnosable.

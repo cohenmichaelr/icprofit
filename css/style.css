@@ -1364,6 +1364,25 @@ section[id],
 .form-status--ok { border-left: 4px solid var(--sage); }
 .form-status--err { border-left: 4px solid var(--red); }
 
+/* Confirmation shown in place of the form after a successful send. */
+.form-success { text-align: center; padding: 1.5rem 0 0.5rem; }
+
+.form-success-mark {
+  width: 62px;
+  height: 62px;
+  margin: 0 auto 1.2rem;
+  border-radius: 50%;
+  background: var(--sage);
+  color: #fff;
+  font-size: 2rem;
+  line-height: 62px;
+}
+
+.form-success h3 { font-size: 1.5rem; margin-bottom: 0.6rem; }
+.form-success p { color: var(--charcoal-soft); }
+.form-success p + p { margin-top: 0.9rem; }
+.form-success .muted { font-size: 0.9rem; }
+
 .booking-aside .note-box h3 { font-size: 1.1rem; margin-bottom: 0.8rem; }
 
 .step-list {

@@ -83,7 +83,7 @@
         that address. Until it is clicked, FormSubmit rejects every submission
         and the visitor sees the failure message.
       -->
-      <form id="consultForm" class="consult-form" novalidate action="https://formsubmit.co/cohenmichaelr@gmail.com" method="POST">
+      <form id="consultForm" class="consult-form" novalidate action="https://formsubmit.co/info@icprofit.com" method="POST">
 			
         <input type="hidden" name="_subject" value="New consultation request — icprofit.com">
         <input type="hidden" name="_template" value="table">
@@ -153,6 +153,16 @@
           or call <a href="tel:+15614040060">(561) 404-0060</a>.
         </p>
       </form>
+
+      <!-- Shown in place of the form once a submission goes through. -->
+      <div class="form-success" id="formSuccess" role="status" aria-live="polite" hidden>
+        <div class="form-success-mark" aria-hidden="true">&#10003;</div>
+        <h3>Your request has been sent</h3>
+        <p>Thank you &mdash; we have your details and will reply the same business day.</p>
+        <p class="muted">Need us sooner? Email
+          <a href="mailto:info@icprofit.com">info@icprofit.com</a> or call
+          <a href="tel:+15614040060">(561) 404-0060</a>.</p>
+      </div>
     </div>
 
     <!-- ASIDE -->
