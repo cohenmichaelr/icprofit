@@ -949,10 +949,15 @@ a { color: var(--sage-dark); }
 .price-card--gold  { --tier: var(--gold); }
 .price-card--sage  { --tier: var(--sage); }
 
+/* The name and focus rows are the only ones whose height varies with the
+   copy, and any difference cascades to every row beneath. Reserve two lines
+   for each so all four columns stay aligned. 3.4em == two lines at the
+   inherited 1.7 line-height. */
 .price-card .plan-name {
   font-size: 1.45rem;
   padding-bottom: 1rem;
   margin-bottom: 0;
+  min-height: calc(3.4em + 1rem);
 }
 
 .plan-label {
@@ -970,6 +975,7 @@ a { color: var(--sage-dark); }
   font-size: 1.15rem;
   color: var(--heading);
   margin: 0.15rem 0 0.9rem;
+  min-height: 3.4em;   /* two lines, matching .plan-name */
 }
 
 .price-card .plan-sub {
