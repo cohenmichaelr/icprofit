@@ -22,6 +22,16 @@
   --rule-cents: rgba(122, 158, 150, 0.26);  /* dollars | cents rule */
   --ledger-paper: #F4F7EE;                  /* pale green ledger sheet */
   --ledger-paper-deep: #E9F0E7;
+  --pad-paper: #FEFCEC;                     /* yellow legal pad */
+  --pad-paper-deep: #FCF9E0;
+  --pad-rule: rgba(96, 134, 178, 0.16);     /* faint blue pad rule */
+  --pad-margin: rgba(211, 74, 84, 0.30);
+
+  /* pale tints for the pricing package panels */
+  --tint-red: #FBF1F2;
+  --tint-coral: #FDF3EE;
+  --tint-gold: #FCF8EA;
+  --tint-sage: #F0F5F4;
   --margin-red: rgba(211, 74, 84, 0.45);
   --ink: #2B2C30;
 
@@ -98,6 +108,15 @@
 
     --ledger-paper: #171C18;
     --ledger-paper-deep: #131714;
+    --pad-paper: #201D14;
+    --pad-paper-deep: #1A1810;
+    --pad-rule: rgba(150, 180, 215, 0.10);
+    --pad-margin: rgba(226, 102, 111, 0.26);
+
+    --tint-red: #241B1D;
+    --tint-coral: #241E19;
+    --tint-gold: #23211A;
+    --tint-sage: #1B211F;
     --rule: rgba(140, 172, 171, 0.15);
     --rule-col: rgba(140, 172, 171, 0.24);
     --rule-cents: rgba(140, 172, 171, 0.11);
@@ -413,26 +432,27 @@ a { color: var(--sage-dark); }
 /* Columnar accounting paper: pale green sheet, horizontal row rules, and a
    band of ruled money columns down the right — each split by a lighter cents
    rule, the way a real ledger sheet is printed. */
+/* Columnar accounting paper: pale green sheet, horizontal row rules, and a
+   band of ruled money columns down the right, each split by a lighter cents
+   rule. Copy sits on white panels above it, so the ruling never runs behind
+   text — see the .panel rules below. */
 .ledger {
   --row-h: 32px;
   --col-w: 96px;
   --cols: 4;
-  --cents: 30px;   /* width of the cents sub-column */
+  --cents: 30px;
 
   position: relative;
-  /* Establish a stacking context so the ruled overlays below can sit at
-     z-index -1: above this element's own paper, but behind all content. */
+  /* stacking context so the ruled overlays can sit behind the content */
   isolation: isolate;
   background-color: var(--ledger-paper);
   background-image:
-    /* money columns + cents rules (right-hand band) */
     repeating-linear-gradient(to right,
       var(--rule-col) 0, var(--rule-col) 1px,
       transparent 1px, transparent calc(var(--col-w) - var(--cents)),
       var(--rule-cents) calc(var(--col-w) - var(--cents)),
       var(--rule-cents) calc(var(--col-w) - var(--cents) + 1px),
       transparent calc(var(--col-w) - var(--cents) + 1px), transparent var(--col-w)),
-    /* horizontal row rules (full width) */
     repeating-linear-gradient(to bottom,
       transparent 0, transparent calc(var(--row-h) - 1px),
       var(--rule) calc(var(--row-h) - 1px), var(--rule) var(--row-h));
@@ -454,9 +474,7 @@ a { color: var(--sage-dark); }
   z-index: -1;
 }
 
-/* double red margin line, as on a real ledger page. Positioned just outside
-   the content column (which is min(1120px, 92%), centred) so it runs down the
-   gutter instead of through the text. */
+/* double red margin line, just outside the content column */
 .ledger::before {
   content: "";
   position: absolute;
@@ -471,8 +489,39 @@ a { color: var(--sage-dark); }
 
 .ledger--deep { background-color: var(--ledger-paper-deep); }
 
+/* ---------- Copy panels ----------
+   Every block of running text on ledger paper sits on its own white panel, so
+   the ruling is visible around the content but never behind it. Cards, the FAQ
+   list and the note boxes already carry their own surface. */
+
+.page-hero > .container,
+.hero .hero-grid > div:first-child,
+.ledger .section-head,
+.ledger .pull-quote,
+.ledger .split > div:first-child,
+.ledger > .container > p.center {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  padding: 2.2rem;
+}
+
+/* the centred section head keeps its own width, just with a panel behind it */
+.ledger .section-head.centered { padding: 2.2rem 2.4rem; }
+
+.ledger > .container > p.center { padding: 1.2rem 2rem; }
+
+@media (max-width: 640px) {
+  .page-hero > .container,
+  .hero .hero-grid > div:first-child,
+  .ledger .section-head,
+  .ledger .pull-quote,
+  .ledger .split > div:first-child { padding: 1.5rem 1.3rem; }
+}
+
 /* On phones the sheet is only as wide as the content, so the column band and
-   margin rule would sit behind the text. Keep the row rules only. */
+   margin rule would sit behind the panels. Keep the row rules only. */
 @media (max-width: 900px) {
   .ledger::before,
   .ledger::after { display: none; }
@@ -481,8 +530,6 @@ a { color: var(--sage-dark); }
       to bottom,
       transparent 0, transparent calc(var(--row-h) - 1px),
       var(--rule) calc(var(--row-h) - 1px), var(--rule) var(--row-h));
-    /* the multi-layer shorthand values must be reset too, or the single
-       remaining layer inherits "384px / no-repeat" and stops short */
     background-size: 100% 100%;
     background-position: left top;
     background-repeat: repeat;
@@ -532,7 +579,7 @@ a { color: var(--sage-dark); }
    track shrink and hands overflow to .sheet-scroll instead of the page. */
 .hero-grid > *,
 .split > *,
-.service-block > *,
+.service-grid > *,
 .card-grid > *,
 .pricing-grid > *,
 .practice-grid > *,
@@ -631,6 +678,19 @@ a { color: var(--sage-dark); }
 .hero .lede { margin-bottom: 2.1rem; }
 .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
 
+/* The hero image fills its frame edge to edge — it carries its own light
+   background, so panel padding would read as a double border. */
+.hero-graphic {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  line-height: 0;
+}
+
+.hero-graphic img { width: 100%; height: auto; display: block; }
+
 .hero-logo {
   height: 150px;
   width: auto;
@@ -699,60 +759,50 @@ a { color: var(--sage-dark); }
 }
 .card a.card-link:hover { text-decoration: underline; }
 
-/* ---------- Service detail blocks ---------- */
+/* ---------- Service cards ----------
+   Three boxes side by side rather than alternating full-width rows: the same
+   panel treatment as the pricing packages, with the four-colour scheme
+   carried on the top bar. */
 
-.service-block {
+.service-grid {
   display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
-  gap: 3.2rem;
-  align-items: start;
-  padding: 3.4rem 0;
-  border-bottom: 1px solid var(--border);
+  grid-template-columns: repeat(auto-fit, minmax(min(290px, 100%), 1fr));
+  gap: 1.5rem;
+  /* stretch, so every box in a row is the same height regardless of how much
+     copy it carries */
+  align-items: stretch;
 }
 
-.service-block:last-of-type { border-bottom: none; }
-.service-block.flip .service-info { order: 2; }
+.service-grid > * { min-width: 0; }
 
-.service-tag {
-  display: inline-block;
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: #fff;
-  padding: 0.32rem 0.9rem;
-  border-radius: 3px;
-  margin-bottom: 1.1rem;
-}
-
-.service-block h3 { font-size: 1.6rem; margin-bottom: 0.9rem; }
-.service-block p { color: var(--charcoal-soft); }
-
-.check-list { list-style: none; margin-top: 1.1rem; }
-
-.check-list li {
-  padding-left: 1.9rem;
+.service-card {
+  --tier: var(--sage);
   position: relative;
-  margin-bottom: 0.7rem;
-  font-size: 0.97rem;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  padding: 2.1rem 1.7rem;
 }
 
-.check-list li::before {
+.service-card::before {
   content: "";
   position: absolute;
-  left: 0;
-  top: 0.42em;
-  width: 0.62em;
-  height: 0.34em;
-  border-left: 2.5px solid var(--sage-dark);
-  border-bottom: 2.5px solid var(--sage-dark);
-  transform: rotate(-45deg);
+  top: 0; left: 0; right: 0;
+  height: 6px;
+  background: var(--tier);
 }
 
-@media (max-width: 900px) {
-  .service-block { grid-template-columns: 1fr; gap: 1.6rem; }
-  .service-block.flip .service-info { order: 0; }
-}
+.service-card--red   { --tier: var(--red); }
+.service-card--coral { --tier: var(--coral); }
+.service-card--gold  { --tier: var(--gold); }
+.service-card--sage  { --tier: var(--sage); }
+
+.service-card h3 { font-size: 1.35rem; margin-bottom: 0.7rem; }
+.service-card > p { color: var(--charcoal-soft); font-size: 0.95rem; }
+.service-card .check-list { margin-top: 1.3rem; }
+.service-card .check-list li { font-size: 0.92rem; }
 
 /* ---------- Practice area cards ---------- */
 
@@ -854,8 +904,9 @@ a { color: var(--sage-dark); }
 
 .pricing-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(290px, 100%), 1fr));
-  gap: 1.7rem;
+  /* four packages now, so the track minimum has to allow 4-up on desktop */
+  grid-template-columns: repeat(auto-fit, minmax(min(228px, 100%), 1fr));
+  gap: 1.3rem;
   align-items: stretch;
 }
 
@@ -878,9 +929,57 @@ a { color: var(--sage-dark); }
   border-radius: var(--radius) var(--radius) 0 0;
 }
 
-.price-card--red::before   { background: var(--red); }
-.price-card--coral::before { background: var(--coral); }
-.price-card--gold::before  { background: var(--gold); }
+/* Package panels: a soft tint per tier, the tier's colour used for the rules
+   that separate name / focus / ideal-for / price, and no highlighted tier. */
+/* All four panels share one background; the four-colour scheme carries through
+   as the top bar and the rules between rows. */
+.price-card {
+  --tier: var(--sage);
+  background: var(--surface);
+  text-align: center;
+  padding: 2rem 1.5rem;
+}
+
+.price-card::before { display: block; height: 6px; background: var(--tier); }
+
+.price-card--red   { --tier: var(--red); }
+.price-card--coral { --tier: var(--coral); }
+.price-card--gold  { --tier: var(--gold); }
+.price-card--sage  { --tier: var(--sage); }
+
+.price-card .plan-name {
+  font-size: 1.45rem;
+  padding-bottom: 1rem;
+  margin-bottom: 0;
+}
+
+.plan-label {
+  border-top: 1px solid var(--tier);
+  padding-top: 0.85rem;
+  font-size: 0.66rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--charcoal-soft);
+}
+
+.plan-theme {
+  font-family: var(--font-head);
+  font-size: 1.15rem;
+  color: var(--heading);
+  margin: 0.15rem 0 0.9rem;
+}
+
+.price-card .plan-sub {
+  min-height: 0;
+  margin: 0.15rem 0 0.9rem;
+  font-size: 0.9rem;
+}
+
+.price-card .price { font-size: 1.5rem; margin: 0.3rem 0 0.2rem; }
+
+.price-card .check-list { text-align: left; margin-top: 1.4rem; }
+.price-card .check-list li { font-size: 0.9rem; }
 
 .price-card.featured { border-color: var(--heading); box-shadow: 0 14px 40px rgba(38,39,43,0.14); }
 
@@ -1113,7 +1212,7 @@ a { color: var(--sage-dark); }
    it. Offset every linkable section by the header's height plus breathing
    room. Used by the About Us and Services dropdowns in the header. */
 section[id],
-.service-block[id] {
+.service-card[id] {
   scroll-margin-top: calc(var(--brand-h) + var(--nav-pad) + 2rem);
 }
 
@@ -1446,7 +1545,6 @@ section[id],
   .charcoal-strip, .cta-band { padding: 3.4rem 0; }
 
   .section-head { margin-bottom: 2rem; }
-  .service-block { padding: 2.4rem 0; }
 
   .footer-grid { grid-template-columns: 1fr; gap: 1.9rem; }
 
