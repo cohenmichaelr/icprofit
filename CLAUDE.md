@@ -4,6 +4,20 @@ Marketing site for ICProfit, a CPA-led accounting firm serving law firms.
 Static HTML, CSS and JavaScript. **No build step** — what is in the repo is
 what is served.
 
+## Never push without being asked
+
+**Pushing publishes.** A push to `master` deploys to www.icprofit.com within a
+minute, so there is no staging step and no undo before the public sees it.
+
+Do not run `git push` unless the user explicitly asks — "publish", "push it",
+"make it live". Their asking for a change is not permission to publish it.
+
+Making changes locally and committing them is fine. Stop before the push, say
+plainly that the work is local and not yet live, and wait.
+
+When work is finished but unpublished, say so clearly rather than describing it
+as done — "verified locally, not yet live" is the honest phrasing.
+
 ## Deploying
 
 - Live at **https://www.icprofit.com**
