@@ -93,8 +93,17 @@ Copy is written **per city** rather than templated with the name swapped — nea
 identical city pages get discounted by search engines. Each carries its own
 title, meta description, canonical URL and `AccountingService` structured data.
 
-Adding a city means adding the page, the card on `areas/index.html`, and an
-entry in `sitemap.xml`.
+Adding a city means adding an entry to `CITIES` in `tools/gen-areas.py`,
+running it, and adding the URL to `sitemap.xml`. The generator rewrites every
+page under `areas/` wholly, including the nav, so edit the script rather than
+the pages. It also builds the city list in the About Us drop-down, so a new
+city reaches the nav of the generated pages on its own — but the seven
+hand-maintained root pages carry their own copy of that nav and need the link
+added by hand.
+
+`areas/nationwide/` is the same furniture without a city: it covers remote
+work for firms in any state, and its middle section is about state-by-state
+trust rules rather than a local practice mix.
 
 ## Open items
 

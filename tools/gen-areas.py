@@ -71,8 +71,9 @@ CITIES = [
 # appears in the nav of every generated page without a second edit. The {r}
 # placeholders are filled in when HEAD is formatted.
 NAV_CITIES = "\n".join(
-    '              <a href="{r}areas/%s/">%s, FL</a>' % (c["slug"], c["city"])
-    for c in CITIES)
+    ['              <a href="{r}areas/%s/">%s, FL</a>' % (c["slug"], c["city"])
+     for c in CITIES]
+    + ['              <a href="{r}areas/nationwide/">Anywhere in the U.S.</a>'])
 
 SERVICES = [
     ("Monthly Bookkeeping", "var(--red)",
@@ -212,6 +213,34 @@ def jsonld(city, county, slug):
     )
 
 
+def jsonld_us():
+    """Same shape as jsonld(), but the area served is the country, not a city.
+    The address stays Boca Raton because that is still where the firm is."""
+    return (
+        '  <script type="application/ld+json">\n'
+        '  {\n'
+        '    "@context": "https://schema.org",\n'
+        '    "@type": "AccountingService",\n'
+        '    "name": "ICProfit",\n'
+        '    "description": "Remote bookkeeping, trust account compliance and fractional CFO services for law firms throughout the United States.",\n'
+        '    "url": "https://www.icprofit.com/areas/nationwide",\n'
+        '    "telephone": "+1-561-404-0060",\n'
+        '    "email": "info@icprofit.com",\n'
+        '    "address": {\n'
+        '      "@type": "PostalAddress",\n'
+        '      "streetAddress": "1489 W. Palmetto Park Rd., Suite 500-200",\n'
+        '      "addressLocality": "Boca Raton",\n'
+        '      "addressRegion": "FL",\n'
+        '      "postalCode": "33486",\n'
+        '      "addressCountry": "US"\n'
+        '    },\n'
+        '    "areaServed": { "@type": "Country", "name": "United States" },\n'
+        '    "serviceType": "Remote law firm bookkeeping, trust accounting and fractional CFO services"\n'
+        '  }\n'
+        '  </script>\n'
+    )
+
+
 R2 = "../../"
 R1 = "../"
 os.makedirs("areas", exist_ok=True)
@@ -282,6 +311,118 @@ for c in CITIES:
     with open(os.path.join("areas", c["slug"], "index.html"), "w", encoding="utf-8") as f:
         f.write(html)
 
+# ---------------------------------------------------------------------------
+# The nationwide page. Same furniture as a city page, but the middle section
+# is about what changes when the firm is not in Florida -- trust rules, which
+# are written state by state -- rather than a local practice mix.
+# ---------------------------------------------------------------------------
+
+TRUST_BY_STATE = [
+    ("Your state bar's rulebook, not a generic one",
+     "Every state writes its own trust accounting requirements, and they differ on the details that matter: what has to be reconciled, how often, and what you must be able to produce on request. We work to the rules your licence sits under."),
+    ("Reconciliation on your state's schedule",
+     "Some states name a frequency for three-way reconciliation, some leave it to the standard of care and expect monthly anyway. We reconcile monthly everywhere and document it the way your bar asks to see it."),
+    ("IOLTA set up so remittance is routine",
+     "Pooled client funds earn interest that belongs to your state's bar foundation, not to you or your client. We keep the account and the reporting arranged so that stays automatic instead of becoming a question."),
+    ("Records that survive an audit",
+     "Retention runs five, six or seven years past the close of a matter depending on the state. Ledgers, reconciliations and supporting documents stay filed and retrievable, so a bar inquiry is a document request rather than a search."),
+]
+
+REMOTE_STEPS = [
+    ("Read-only access.",
+     "We connect to your bank, credit card and practice management software with read-only credentials. We can see everything and move nothing."),
+    ("A secure channel for documents.",
+     "Statements, invoices and closing files come across encrypted. Nothing sensitive travels by email attachment."),
+    ("A close on a fixed calendar.",
+     "Your books close on the same date every month and your statements land on the same date after that, whichever state you are in."),
+    ("Answers the same business day.",
+     "Questions get a reply the same business day. We work Eastern time and have clients three time zones away; it has never been the thing that slowed a firm down."),
+]
+
+os.makedirs(os.path.join("areas", "nationwide"), exist_ok=True)
+
+svc = "\n".join(
+    '      <div class="service-card" style="--tier: %s;">\n        <h3>%s</h3>\n        <p>%s</p>\n      </div>'
+    % (col, name, body) for name, col, body in SERVICES)
+trust = "\n".join(
+    '      <div class="practice-card">\n        <h3>%s</h3>\n        <p>%s</p>\n      </div>'
+    % (n, b) for n, b in TRUST_BY_STATE)
+steps = "\n".join(
+    '          <li><strong>%s</strong> %s</li>' % (n, b) for n, b in REMOTE_STEPS)
+
+us_body = """
+<section class="page-hero ledger">
+  <div class="container">
+    <p class="kicker">Service Areas</p>
+    <h1>Bookkeeping &amp; CFO Services for Law Firms <span class="accent">Anywhere in the U.S.</span></h1>
+    <p class="lede">Our office is in Boca Raton. Our clients are not all in Florida. Every part of this work runs on secure cloud accounting, so the state you practise in decides which trust rules we follow &mdash; not whether we can do the work at all.</p>
+    <div class="stripe-rule" aria-hidden="true">
+      <span class="s-red"></span><span class="s-coral"></span><span class="s-gold"></span><span class="s-sage"></span>
+    </div>
+  </div>
+</section>
+
+<section class="section ledger">
+  <div class="container">
+    <div class="section-head centered">
+      <p class="kicker">This Is Where We Work</p>
+      <h2>What we handle, wherever your firm is</h2>
+    </div>
+    <div class="service-grid">
+{svc}
+    </div>
+  </div>
+</section>
+
+<section class="section ledger ledger--deep">
+  <div class="container">
+    <div class="section-head centered">
+      <p class="kicker">Fifty States, Fifty Rulebooks</p>
+      <h2>Trust accounting is a state matter</h2>
+      <p class="lede">This is the part of law firm accounting that does not travel. The bookkeeping looks much the same in Ohio as it does in Florida; the trust rules do not. Getting them right is a question of reading your state's, not applying a template.</p>
+    </div>
+    <div class="practice-grid">
+{trust}
+    </div>
+  </div>
+</section>
+
+<section class="section ledger">
+  <div class="container">
+    <div class="section-head centered">
+      <p class="kicker">Working Remotely</p>
+      <h2>What it actually looks like</h2>
+      <p class="lede">Distance is a solved problem, but only if the setup is deliberate. Ours is.</p>
+    </div>
+    <div class="note-box">
+      <ol class="step-list">
+{steps}
+      </ol>
+    </div>
+    <div class="note-box mt-3">
+      <p><strong>Closer to home?</strong> South Florida is the market we know best &mdash; the courts, the practice mixes and the way each one bills. We have pages for {city_links}. <a href="{r}areas/">See all service areas &rarr;</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container">
+    <h2>The next step: talk to Ivy</h2>
+    <p>A free, no-obligation conversation about where your practice stands today &mdash; your billing, your trust accounts, and what is not working. Wherever you are.</p>
+    <a class="btn btn-light" href="{r}schedule.html">Schedule a Consultation</a>
+  </div>
+</section>
+""".format(svc=svc, trust=trust, steps=steps, r=R2,
+           city_links=", ".join('<a href="%sareas/%s/">%s</a>' % (R2, c["slug"], c["city"])
+                                for c in CITIES))
+
+with open(os.path.join("areas", "nationwide", "index.html"), "w", encoding="utf-8") as f:
+    f.write(HEAD.format(
+        title="Law Firm Bookkeeping &amp; CFO Services Nationwide | ICProfit",
+        desc="Remote bookkeeping, trust account compliance and fractional CFO services for law firms anywhere in the United States. CPA-led, built around your own state bar's trust rules.",
+        canon="areas/nationwide", r=R2, extra=jsonld_us())
+        + us_body + FOOTER.format(r=R2))
+
 cards = "\n".join(
     '      <div class="practice-card">\n'
     '        <h3><a href="%s/">%s, FL</a></h3>\n'
@@ -308,7 +449,7 @@ idx_body = """
 {cards}
     </div>
     <div class="note-box mt-3">
-      <p><strong>Not in South Florida?</strong> All of our work runs remotely through secure cloud accounting, so distance is not an obstacle. Trust rules vary by state, and we shape the reconciliation work to your state bar's requirements.</p>
+      <p><strong>Not in South Florida?</strong> All of our work runs remotely through secure cloud accounting, so distance is not an obstacle. Trust rules vary by state, and we shape the reconciliation work to your state bar's requirements. <a href="nationwide/">How we work with firms anywhere in the U.S. &rarr;</a></p>
     </div>
   </div>
 </section>
