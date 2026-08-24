@@ -388,6 +388,66 @@ a { color: var(--sage-dark); }
   color: var(--sage-dark);
 }
 
+/* Service Areas sits last in the About Us panel and opens the six city pages
+   in a panel of its own to the right, so they are one hover from every page
+   without making the About Us list ten items tall. */
+.nav-sub-item {
+  position: relative;
+  display: block;
+}
+
+.nav-sub-item > a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+}
+
+/* the caret is decoration; the link text already says where it goes */
+.nav-sub-item > a::after {
+  content: "\203A";
+  font-size: 1.05rem;
+  line-height: 1;
+  color: var(--sage);
+}
+
+/* bridges the gap between the two panels so the pointer can cross it without
+   the flyout closing underneath it */
+.nav-sub-item::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 100%;
+  width: 0.7rem;
+}
+
+.flyout {
+  position: absolute;
+  top: -0.4rem;
+  left: calc(100% + 0.5rem);
+  min-width: 11rem;
+  display: flex;
+  flex-direction: column;
+  padding: 0.4rem;
+  background: var(--header-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow-card);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+  z-index: 61;
+}
+
+.nav-sub-item:hover .flyout,
+.nav-sub-item:focus-within .flyout {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
 .nav-toggle {
   display: none;
   background: none;
@@ -1567,6 +1627,27 @@ section[id],
     vertical-align: middle;
     margin-right: 0.55rem;
   }
+
+  /* No hover in the drawer either, so the city list unfolds inline under
+     Service Areas, indented one step further than the About Us links. */
+  .nav-sub-item { display: block; }
+  .nav-sub-item::after { display: none; }
+  .nav-sub-item > a::after { content: none; }
+
+  .flyout {
+    position: static;
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+    min-width: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+    transition: none;
+  }
+
+  .flyout a { padding-left: 2.1rem; }
 }
 
 /* ---------- Small phones ---------- */

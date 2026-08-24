@@ -67,6 +67,13 @@ CITIES = [
                 ("Estate Planning", "Plan pricing measured against the work it actually takes.")]),
 ]
 
+# The city links in the About Us drop-down, built from CITIES so a new city
+# appears in the nav of every generated page without a second edit. The {r}
+# placeholders are filled in when HEAD is formatted.
+NAV_CITIES = "\n".join(
+    '              <a href="{r}areas/%s/">%s, FL</a>' % (c["slug"], c["city"])
+    for c in CITIES)
+
 SERVICES = [
     ("Monthly Bookkeeping", "var(--red)",
      "Transactions coded, bank and credit cards reconciled, and bank-ready statements every month on a legal-specific chart of accounts."),
@@ -111,6 +118,12 @@ HEAD = """<!DOCTYPE html>
           <a href="{r}about.html#our-story">Our Story</a>
           <a href="{r}about.html#the-founder">The Founder</a>
           <a href="{r}about.html#how-we-work">How We Work</a>
+          <div class="nav-sub-item">
+            <a href="{r}areas/">Service Areas</a>
+            <div class="flyout">
+""" + NAV_CITIES + """
+            </div>
+          </div>
         </div>
       </div>
       <a href="{r}services.html">Services</a>
