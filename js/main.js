@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // in-page POST so the visitor never leaves the page.
 //
 // To change provider, update ENDPOINT here and the form's action in
-// schedule.html. For Netlify Forms, drop this handler and add
+// contactus.html. For Netlify Forms, drop this handler and add
 // data-netlify="true" to the form instead.
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('consultForm');
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Derive the endpoint from the form's own action so the JS path and the
   // no-JavaScript fallback can never point at different addresses. Change the
-  // recipient in schedule.html only.
+  // recipient in contactus.html only.
   const ACTION = form.getAttribute('action') || '';
   const ENDPOINT = ACTION.replace('formsubmit.co/', 'formsubmit.co/ajax/');
   const TO = ACTION.split('/').pop() || 'info@icprofit.com';

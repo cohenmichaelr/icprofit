@@ -55,7 +55,7 @@ Local preview: `.claude/launch.json` config `icprofit-redesign`, port 4180.
 
 ## The consultation form
 
-`schedule.html` posts to FormSubmit, which relays submissions as email.
+`contactus.html` posts to FormSubmit, which relays submissions as email.
 
 - The recipient is set in **one place**: the `action` attribute on the form.
   `js/main.js` derives its endpoint from that attribute, so changing the address
