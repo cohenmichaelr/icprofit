@@ -117,7 +117,7 @@ HEAD = """<!DOCTYPE html>
       <a href="{r}practice-areas.html">Practice Areas</a>
       <a href="{r}faq.html">FAQ</a>
       <a href="{r}pricing.html">Pricing</a>
-      <a class="btn btn-primary" href="{r}schedule.html">Schedule a Consultation</a>
+      <a class="btn btn-primary" href="https://bookings.cloud.microsoft/bookwithme/user/d529933faf3249b8a4383e46094fd0ac%40businessprofitadvisors.com/meetingtype/HarIl9wjVE66CN5RmOIdkg2?anonymous&amp;ismsaljsauthenabled" target="_blank" rel="noopener">Schedule a Consultation</a>
     </nav>
     <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
   </div>
@@ -282,7 +282,7 @@ for c in CITIES:
   <div class="container">
     <h2>The next step: talk to Ivy</h2>
     <p>A free, no-obligation conversation about where your {city} practice stands today &mdash; your billing, your trust accounts, and what is not working.</p>
-    <a class="btn btn-light" href="{r}schedule.html">Schedule a Consultation</a>
+    <a class="btn btn-light" href="https://bookings.cloud.microsoft/bookwithme/user/d529933faf3249b8a4383e46094fd0ac%40businessprofitadvisors.com/meetingtype/HarIl9wjVE66CN5RmOIdkg2?anonymous&amp;ismsaljsauthenabled" target="_blank" rel="noopener">Schedule a Consultation</a>
   </div>
 </section>
 """.format(city=c["city"], lede=c["lede"], local=c["local"],
@@ -395,7 +395,7 @@ us_body = """
   <div class="container">
     <h2>The next step: talk to Ivy</h2>
     <p>A free, no-obligation conversation about where your practice stands today &mdash; your billing, your trust accounts, and what is not working. Wherever you are.</p>
-    <a class="btn btn-light" href="{r}schedule.html">Schedule a Consultation</a>
+    <a class="btn btn-light" href="https://bookings.cloud.microsoft/bookwithme/user/d529933faf3249b8a4383e46094fd0ac%40businessprofitadvisors.com/meetingtype/HarIl9wjVE66CN5RmOIdkg2?anonymous&amp;ismsaljsauthenabled" target="_blank" rel="noopener">Schedule a Consultation</a>
   </div>
 </section>
 """.format(svc=svc, trust=trust, steps=steps, r=R2,
@@ -444,7 +444,7 @@ idx_body = """
   <div class="container">
     <h2>Let's talk about your practice</h2>
     <p>Tell us where you are and how you bill. We'll tell you plainly what your books should look like.</p>
-    <a class="btn btn-light" href="{r}schedule.html">Schedule a Consultation</a>
+    <a class="btn btn-light" href="https://bookings.cloud.microsoft/bookwithme/user/d529933faf3249b8a4383e46094fd0ac%40businessprofitadvisors.com/meetingtype/HarIl9wjVE66CN5RmOIdkg2?anonymous&amp;ismsaljsauthenabled" target="_blank" rel="noopener">Schedule a Consultation</a>
   </div>
 </section>
 """.format(cards=cards, r=R1)
