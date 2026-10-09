@@ -117,6 +117,7 @@ HEAD = """<!DOCTYPE html>
       <a href="{r}practice-areas.html">Practice Areas</a>
       <a href="{r}faq.html">FAQ</a>
       <a href="{r}pricing.html">Pricing</a>
+      <a href="{r}schedule.html">Contact Us</a>
       <a class="btn btn-primary" href="https://bookings.cloud.microsoft/bookwithme/user/d529933faf3249b8a4383e46094fd0ac%40businessprofitadvisors.com/meetingtype/HarIl9wjVE66CN5RmOIdkg2?anonymous&amp;ismsaljsauthenabled" target="_blank" rel="noopener">Schedule a Consultation</a>
     </nav>
     <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
