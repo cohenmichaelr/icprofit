@@ -1363,6 +1363,36 @@ section[id],
   margin-bottom: 0.9rem;
 }
 
+/* Certification badges. The source images are square canvases with their own
+   white matting baked in, so each sits in a white tile and is contained rather
+   than cropped — that keeps the tiles the same size whatever shape the mark is,
+   and keeps the white backgrounds from reading as stray squares on the dark
+   footer. */
+.cert-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1.1rem;
+  padding: 1.8rem 0 0.4rem;
+  border-bottom: 1px solid rgba(140, 172, 171, 0.22);
+  padding-bottom: 1.8rem;
+}
+
+.cert-strip img {
+  width: 124px;
+  height: 124px;
+  object-fit: contain;
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 0.4rem;
+}
+
+@media (max-width: 420px) {
+  .cert-strip { gap: 0.7rem; }
+  .cert-strip img { width: 92px; height: 92px; padding: 0.3rem; }
+}
+
 .footer-bottom {
   padding-top: 1.6rem;
   display: flex;
