@@ -55,14 +55,13 @@ Local preview: `.claude/launch.json` config `icprofit-redesign`, port 4180.
 
 ## Contact and booking
 
-`contactus.html` is just a hero: direct contact details and a "Book a time"
-box stacked on the left, the founder photo (`assets/why-us.webp`) on the
-right. There is no form; the FormSubmit form was removed and
-lives in git history if it is ever wanted back.
+`contactus.html` is just a hero: the "Contact us directly" box (with a
+Schedule a Consultation button) on the left and the office photo
+(`assets/office.jpg`) on the right. There is no form; the FormSubmit form was
+removed and lives in git history if it is ever wanted back.
 
 - Consultations are booked through **Microsoft Bookings**. Every "Schedule a
-  Consultation" button and the "Book a time" button link straight to it and
-  open in a new tab. The URL appears on every page and in
+  Consultation" button links straight to it and opens in a new tab. The URL appears on every page and in
   `tools/gen-areas.py`, so change it everywhere at once.
 - "Contact Us" in the header, "Request a Quote", "Get Your Flat Quote" and
   "Ask a Question" go to `contactus.html`.
