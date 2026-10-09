@@ -1244,12 +1244,12 @@ section[id],
 
 /* ---------- Contact page ---------- */
 
-/* The two boxes sit side by side inside the hero panel, stacking on phones. */
+/* Two columns inside the hero panel, stacking on phones. */
 .contact-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.6rem;
-  align-items: start;
+  align-items: stretch;
   margin-top: 1.6rem;
 }
 
@@ -1260,6 +1260,35 @@ section[id],
 }
 
 .contact-grid .note-box h3 { font-size: 1.1rem; margin-bottom: 0.8rem; }
+
+/* The boxes stack on the left and the photo takes the full height beside
+   them, cropped to fit. */
+.contact-side { display: flex; flex-direction: column; gap: 1.6rem; }
+
+/* The image is positioned absolutely so its own square height never feeds
+   back into the row; the boxes set the height and the photo follows. */
+.contact-photo {
+  position: relative;
+  min-height: 260px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+
+.contact-photo img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+}
+
+/* Stacked, there is no neighbour to match, so the photo gets a set height. */
+@media (max-width: 760px) {
+  .contact-photo { height: 300px; }
+}
 
 /* Numbered steps (used on the nationwide service-area page). */
 .step-list {

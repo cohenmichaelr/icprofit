@@ -55,8 +55,9 @@ Local preview: `.claude/launch.json` config `icprofit-redesign`, port 4180.
 
 ## Contact and booking
 
-`contactus.html` is just a hero with two boxes: direct contact details and a
-"Book a time" button. There is no form; the FormSubmit form was removed and
+`contactus.html` is just a hero: direct contact details and a "Book a time"
+box stacked on the left, the founder photo (`assets/why-us.webp`) on the
+right. There is no form; the FormSubmit form was removed and
 lives in git history if it is ever wanted back.
 
 - Consultations are booked through **Microsoft Bookings**. Every "Schedule a
