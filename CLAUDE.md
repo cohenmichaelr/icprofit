@@ -53,17 +53,19 @@ Local preview: `.claude/launch.json` config `icprofit-redesign`, port 4180.
 - Real contact details: `info@icprofit.com`, (561) 404-0060, 1489 W. Palmetto
   Park Rd., Suite 500-200, Boca Raton, FL 33486.
 
-## The consultation form
+## Contact and booking
 
-`contactus.html` posts to FormSubmit, which relays submissions as email.
+`contactus.html` is just a hero with two boxes: direct contact details and a
+"Book a time" button. There is no form; the FormSubmit form was removed and
+lives in git history if it is ever wanted back.
 
-- The recipient is set in **one place**: the `action` attribute on the form.
-  `js/main.js` derives its endpoint from that attribute, so changing the address
-  there changes both the JavaScript path and the no-JS fallback.
-- FormSubmit activation is **per email address**. Change the address and the new
-  one needs its own activation click before anything is delivered.
-- On failure the visitor sees a generic message; the real reason is logged to
-  the browser console.
+- Consultations are booked through **Microsoft Bookings**. Every "Schedule a
+  Consultation" button and the "Book a time" button link straight to it and
+  open in a new tab. The URL appears on every page and in
+  `tools/gen-areas.py`, so change it everywhere at once.
+- "Contact Us" in the header, "Request a Quote", "Get Your Flat Quote" and
+  "Ask a Question" go to `contactus.html`.
+- `schedule.html` is a noindex forwarder to `contactus.html` for old links.
 
 ## CSS conventions (`css/style.css`)
 
