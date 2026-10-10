@@ -63,163 +63,11 @@
   --nav-pad: 1.1rem; /* .nav-wrap padding, top + bottom combined */
 }
 
-/* ---------- Dark mode ----------
-   The ledger becomes a dark green sheet with pale rules. Accents are lifted
-   a little: #D34A54 on a near-black page reads too dim for small uppercase
-   text, so the palette brightens just enough to stay legible while keeping
-   the brand hues recognisable. Applied on the system preference, and by
-   data-theme when the visitor has made an explicit choice. */
+/* ---------- Colour scheme ----------
+   The site is light only. "only light" also stops browsers that force a dark
+   rendering (Chrome's auto dark mode on Android, for one) from inverting it. */
 
-:root { color-scheme: light; }
-
-/* Chrome does not re-resolve a transitioned property when the custom property
-   behind its value changes, so a themed element that transitions colour keeps
-   the old paint after a theme flip (white-on-white pills, etc). Transitions are
-   suppressed for one frame while the palette swaps; the JS toggle adds and
-   removes this class. Hover transitions are unaffected. */
-.theme-switching,
-.theme-switching *,
-.theme-switching *::before,
-.theme-switching *::after {
-  transition: none !important;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    color-scheme: dark;
-
-    --bg: #15181A;
-    --surface: #1E2226;
-    --header-bg: #121417;
-    --text: #E3E1D9;
-    --heading: #F3F1E9;
-    --charcoal-soft: #ABA9A1;
-    --border: #2F3439;
-
-    --sheet: #191E1B;
-    --sheet-border: #2D342F;
-    --sheet-rule: #7FA39A;
-
-    --strip-bg: #0D0F10;
-    --strip-heading: #F3F1E9;
-    --strip-text: #CFCDC5;
-    --strip-text-soft: #A8A69E;
-    --strip-text-dim: #7C7A73;
-
-    --ledger-paper: #171C18;
-    --ledger-paper-deep: #131714;
-    --pad-paper: #201D14;
-    --pad-paper-deep: #1A1810;
-    --pad-rule: rgba(150, 180, 215, 0.10);
-    --pad-margin: rgba(226, 102, 111, 0.26);
-
-    --tint-red: #241B1D;
-    --tint-coral: #241E19;
-    --tint-gold: #23211A;
-    --tint-sage: #1B211F;
-    --rule: rgba(140, 172, 171, 0.15);
-    --rule-col: rgba(140, 172, 171, 0.24);
-    --rule-cents: rgba(140, 172, 171, 0.11);
-    --margin-red: rgba(226, 102, 111, 0.38);
-
-    --sage-dark: #9CBFBB;
-    --red: #E2666F;
-    --coral: #F58A66;
-    --gold: #EBCC80;
-
-    --shadow-card: 0 2px 6px rgba(0, 0, 0, 0.35), 0 12px 30px rgba(0, 0, 0, 0.32);
-  }
-}
-
-/* Same palette, applied when the visitor has explicitly chosen dark. Plain CSS
-   has no way to share a declaration block across a media query boundary, so
-   these values are intentionally duplicated — edit both together. */
-:root[data-theme="dark"] {
-  color-scheme: dark;
-
-  --bg: #15181A;
-  --surface: #1E2226;
-  --header-bg: #121417;
-  --text: #E3E1D9;
-  --heading: #F3F1E9;
-  --charcoal-soft: #ABA9A1;
-  --border: #2F3439;
-
-  --sheet: #191E1B;
-  --sheet-border: #2D342F;
-  --sheet-rule: #7FA39A;
-
-  --strip-bg: #0D0F10;
-  --strip-heading: #F3F1E9;
-  --strip-text: #CFCDC5;
-  --strip-text-soft: #A8A69E;
-  --strip-text-dim: #7C7A73;
-
-  --ledger-paper: #171C18;
-  --ledger-paper-deep: #131714;
-  --rule: rgba(140, 172, 171, 0.15);
-  --rule-col: rgba(140, 172, 171, 0.24);
-  --rule-cents: rgba(140, 172, 171, 0.11);
-  --margin-red: rgba(226, 102, 111, 0.38);
-
-  --sage-dark: #9CBFBB;
-  --red: #E2666F;
-  --coral: #F58A66;
-  --gold: #EBCC80;
-
-  --shadow-card: 0 2px 6px rgba(0, 0, 0, 0.35), 0 12px 30px rgba(0, 0, 0, 0.32);
-}
-
-/* The logo's mark and wordmark are charcoal, which disappears on a dark
-   header. A filter would flatten the four accent bars to grey, so a recoloured
-   variant is swapped in instead — only the charcoal becomes light. */
-.brand-mark--dark { display: none; }
-
-:root[data-theme="dark"] .brand-mark--light { display: none; }
-:root[data-theme="dark"] .brand-mark--dark { display: block; }
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .brand-mark--light { display: none; }
-  :root:not([data-theme="light"]) .brand-mark--dark { display: block; }
-}
-
-/* ---------- Theme toggle ---------- */
-
-.theme-toggle {
-  background: none;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 0.42rem 0.62rem;
-  font-size: 1rem;
-  line-height: 1;
-  cursor: pointer;
-  color: var(--text);
-  transition: border-color 0.15s ease, color 0.15s ease;
-}
-
-.theme-toggle:hover { border-color: var(--sage-dark); color: var(--sage-dark); }
-
-/* The footer strip is dark in both themes, so the toggle takes strip colours
-   rather than the page's text/border tokens. */
-.site-footer .theme-toggle {
-  border-color: rgba(140, 172, 171, 0.35);
-  color: var(--strip-text);
-  padding: 0.35rem 0.7rem;
-}
-
-.site-footer .theme-toggle:hover,
-.site-footer .theme-toggle:focus-visible {
-  border-color: var(--gold);
-  color: var(--gold);
-}
-.theme-toggle .icon-sun { display: none; }
-:root[data-theme="dark"] .theme-toggle .icon-sun { display: inline; }
-:root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .theme-toggle .icon-sun { display: inline; }
-  :root:not([data-theme="light"]) .theme-toggle .icon-moon { display: none; }
-}
+:root { color-scheme: only light; }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -1288,6 +1136,37 @@ section[id],
   .contact-photo { height: 260px; }
 }
 
+/* The office photo on the contact page gets a deeper shadow than the
+   standard hero frame, to match the lifted badges below it. */
+.hero-graphic.contact-office { box-shadow: 0 14px 30px rgba(0, 0, 0, 0.22); }
+
+/* Certification badges on the contact page: always one row. The height
+   scales with the viewport so all three fit on a phone; object-fit keeps a
+   badge from distorting if the row still has to squeeze it narrower. */
+.contact-badges {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1.2rem, 6vw, 5rem);
+}
+
+/* Each badge links to the company's site. */
+.contact-badges a {
+  flex: 0 1 auto;
+  min-width: 0;
+  display: flex;
+}
+
+.contact-badges img {
+  min-width: 0;
+  width: auto;
+  height: clamp(48px, 12vw, 150px);
+  object-fit: contain;
+  /* drop-shadow, not box-shadow: it follows the transparent outline, so the
+     QuickBooks shield and the Xero circles get shaped shadows, not boxes. */
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.22));
+}
+
 /* Numbered steps (used on the nationwide service-area page). */
 .step-list {
   margin: 0;
@@ -1328,7 +1207,11 @@ section[id],
   background: var(--strip-bg);
   color: var(--strip-text-soft);
   padding: 3.6rem 0 2rem;
-  border-top: 5px solid var(--gold);
+  /* the same four-colour band as under the header, closing the page */
+  border-top: 6px solid;
+  border-image: linear-gradient(90deg,
+    var(--red) 0 25%, var(--coral) 25% 50%,
+    var(--gold) 50% 75%, var(--sage) 75% 100%) 1;
 }
 
 .footer-grid {
@@ -1363,34 +1246,71 @@ section[id],
   margin-bottom: 0.9rem;
 }
 
-/* Certification badges. The source images are square canvases with their own
-   white matting baked in, so each sits in a white tile and is contained rather
-   than cropped — that keeps the tiles the same size whatever shape the mark is,
-   and keeps the white backgrounds from reading as stray squares on the dark
-   footer. */
+/* Certification badges in the footer: a smaller copy of the row on the
+   contact page, linking to each company. drop-shadow follows each badge's
+   transparent outline, so the shield and circles get shaped shadows. */
 .cert-strip {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 1.1rem;
-  padding: 1.8rem 0 0.4rem;
+  gap: clamp(1rem, 4vw, 2.6rem);
+  padding: 1.8rem 0;
   border-bottom: 1px solid rgba(140, 172, 171, 0.22);
-  padding-bottom: 1.8rem;
+}
+
+.cert-strip a {
+  flex: 0 1 auto;
+  min-width: 0;
+  display: flex;
 }
 
 .cert-strip img {
-  width: 124px;
-  height: 124px;
+  min-width: 0;
+  width: auto;
+  height: 96px;
   object-fit: contain;
-  background: #fff;
-  border-radius: var(--radius);
-  padding: 0.4rem;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35));
 }
 
 @media (max-width: 420px) {
-  .cert-strip { gap: 0.7rem; }
-  .cert-strip img { width: 92px; height: 92px; padding: 0.3rem; }
+  .cert-strip img { height: 58px; }
+}
+
+/* Badges sit muted (in their own colours, softened and faded) and come up
+   to full strength on hover or
+   keyboard focus. Only where the device can hover: on touch screens there is
+   no way to brighten them, so they stay in full colour. Each filter list
+   keeps the same functions in the same order so the change animates. */
+@media (hover: hover) {
+  .cert-strip img,
+  .contact-badges img {
+    opacity: 0.7;
+    transition: filter 0.25s ease, opacity 0.25s ease;
+  }
+
+  .cert-strip img { filter: saturate(0.6) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35)); }
+  .contact-badges img { filter: saturate(0.6) drop-shadow(0 6px 10px rgba(0, 0, 0, 0.22)); }
+
+  .cert-strip a:hover img,
+  .cert-strip a:focus-visible img,
+  .contact-badges a:hover img,
+  .contact-badges a:focus-visible img { opacity: 1; }
+
+  .cert-strip a:hover img,
+  .cert-strip a:focus-visible img { filter: saturate(1) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35)); }
+
+  .contact-badges a:hover img,
+  .contact-badges a:focus-visible img { filter: saturate(1) drop-shadow(0 6px 10px rgba(0, 0, 0, 0.22)); }
+}
+
+/* The QuickBooks shield is tall and narrow, so at the same height as the
+   others it reads much smaller. Give it about a third more, here and on the
+   contact page. */
+.cert-strip img[src$="quickbooks-proadvisor.png"] { height: 126px; }
+.contact-badges img[src$="quickbooks-proadvisor.png"] { height: clamp(62px, 15.6vw, 195px); }
+
+@media (max-width: 420px) {
+  .cert-strip img[src$="quickbooks-proadvisor.png"] { height: 76px; }
 }
 
 .footer-bottom {

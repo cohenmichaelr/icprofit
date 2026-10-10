@@ -72,15 +72,11 @@ removed and lives in git history if it is ever wanted back.
 - **Keep it readable and commented. Do not minify.** It goes over the wire at
   roughly 10KB brotli against 42KB raw, so minifying saves about 3.8KB and costs
   the comments explaining the non-obvious fixes.
-- Dark mode overrides **semantic tokens only** (`--bg`, `--surface`, `--text`,
-  `--heading`, `--border`, `--strip-*`). `--charcoal` stays fixed because it is
-  the text colour on gold and coral chips, which stay light in both themes.
-- The dark palette is **deliberately duplicated** across the
-  `prefers-color-scheme` media query and the `[data-theme="dark"]` rule. Plain
-  CSS cannot share a declaration block across that boundary. Edit both together.
-- `.theme-switching` suppresses transitions for one frame during a theme flip.
-  Chrome does not re-resolve a transitioned property when the custom property
-  behind it changes, which strands text at the previous colour. Don't remove it.
+- The site is **light only**. There is no dark mode and no theme toggle;
+  `:root { color-scheme: only light; }` also stops browsers that force dark
+  rendering (Chrome's auto dark mode on Android) from inverting it. The dark
+  palette, the toggle and `logo-dark.png`'s swap were removed and live in git
+  history.
 - Grid children carry `min-width: 0`. Without it a wide child (a nowrap table)
   inflates its whole track past the container and the page scrolls sideways.
 - Copy on ledger paper sits on white `.panel` surfaces so the ruling never runs
